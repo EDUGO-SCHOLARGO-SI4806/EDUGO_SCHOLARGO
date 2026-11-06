@@ -13,8 +13,9 @@ class ScholarshipController extends Controller
     public function index()
     {
         $scholarships = Beasiswa::latest()->paginate(10);
+        $trashedCount = Beasiswa::onlyTrashed()->count();
 
-        return view('admin.scholarships.index', compact('scholarships'));
+        return view('admin.scholarships.index', compact('scholarships', 'trashedCount'));
     }
 
     public function show(Beasiswa $scholarship)
@@ -79,6 +80,49 @@ class ScholarshipController extends Controller
 
         return redirect()
             ->route('admin.scholarships.index')
-            ->with('success', 'Beasiswa berhasil dihapus.');
+            ->with('success', 'Beasiswa "' . $scholarship->nama . '" berhasil dipindahkan ke tempat sampah.');
+    }
+
+    /**
+     * Halaman daftar beasiswa yang diarsipkan (soft deleted).
+     */
+    public function trashed()
+    {
+        $scholarships = Beasiswa::onlyTrashed()->latest('deleted_at')->paginate(10);
+
+        return view('admin.scholarships.trashed', compact('scholarships'));
+    }
+
+    /**
+     * Memulihkan beasiswa dari tempat sampah (restore).
+     */
+    public function restore($id)
+    {
+        $scholarship = Beasiswa::onlyTrashed()->findOrFail($id);
+        $scholarship->restore();
+
+        return redirect()
+            ->route('admin.scholarships.trashed')
+            ->with('success', 'Beasiswa "' . $scholarship->nama . '" berhasil dipulihkan kembali!');
+    }
+
+    /**
+     * Menghapus beasiswa secara permanen dari database dan membersihkan poster fisik.
+     */
+    public function forceDelete($id)
+    {
+        $scholarship = Beasiswa::onlyTrashed()->findOrFail($id);
+
+        // Hapus file fisik poster dari storage jika ada
+        if ($scholarship->poster) {
+            Storage::disk('public')->delete($scholarship->poster);
+        }
+
+        $nama = $scholarship->nama;
+        $scholarship->forceDelete();
+
+        return redirect()
+            ->route('admin.scholarships.trashed')
+            ->with('success', 'Beasiswa "' . $nama . '" telah dihapus permanen dari sistem.');
     }
 }

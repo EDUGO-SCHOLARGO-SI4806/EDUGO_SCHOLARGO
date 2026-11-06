@@ -223,6 +223,16 @@
         .btn-primary:active { transform: translateY(0); }
         .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
         .btn-ghost:hover { border-color: #9ca3af; color: var(--text-primary); }
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        .btn-danger:hover {
+            background: #ef4444;
+            color: #fff;
+            border-color: #ef4444;
+        }
 
         /* ── Sidebar ── */
         .sidebar-card-header { padding: 1rem 1.25rem 0.75rem; border-bottom: 1px solid #e5e7eb; }
@@ -517,24 +527,43 @@
                     </div>
 
                     {{-- ── Actions ── --}}
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary" id="btn-submit">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
-                                <polyline points="17 21 17 13 7 13 7 21"/>
-                                <polyline points="7 3 7 8 15 8"/>
-                            </svg>
-                            Simpan Perubahan
-                        </button>
-                        <a href="{{ route('admin.scholarships.show', $scholarship) }}" class="btn btn-ghost">
+                    <div class="form-actions" style="justify-content: space-between; align-items: center;">
+                        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+                            <button type="submit" class="btn btn-primary" id="btn-submit">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                                    <polyline points="17 21 17 13 7 13 7 21"/>
+                                    <polyline points="7 3 7 8 15 8"/>
+                                </svg>
+                                Simpan Perubahan
+                            </button>
+                            <a href="{{ route('admin.scholarships.show', $scholarship) }}" class="btn btn-ghost">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                </svg>
+                                Batal / Kembali
+                            </a>
+                        </div>
+
+                        {{-- Tombol Hapus Beasiswa dengan konfirmasi dialog --}}
+                        <button type="button" class="btn btn-danger" onclick="confirmDeleteScholarship()">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="19" y1="12" x2="5" y2="12"></line>
-                                <polyline points="12 19 5 12 12 5"></polyline>
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
                             </svg>
-                            Batal / Kembali
-                        </a>
+                            Hapus Beasiswa
+                        </button>
                     </div>
 
+                </form>
+
+                {{-- Form tersembunyi khusus aksi Delete --}}
+                <form id="delete-scholarship-form" method="POST" action="{{ route('admin.scholarships.destroy', $scholarship) }}" style="display: none;">
+                    @csrf
+                    @method('DELETE')
                 </form>
             </div>
         </main>
@@ -632,6 +661,14 @@
             btn.disabled = true;
             btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin .8s linear infinite"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0"/></svg> Menyimpan…`;
         });
+
+        // Konfirmasi Hapus Beasiswa dari halaman edit
+        function confirmDeleteScholarship() {
+            const nama = @json($scholarship->nama);
+            if (confirm(`Yakin ingin menghapus beasiswa "${nama}"?\n\nData akan diarsipkan (soft delete) dan tidak akan tampil di publik, namun dapat dipulihkan kembali.`)) {
+                document.getElementById('delete-scholarship-form').submit();
+            }
+        }
     </script>
 
     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>

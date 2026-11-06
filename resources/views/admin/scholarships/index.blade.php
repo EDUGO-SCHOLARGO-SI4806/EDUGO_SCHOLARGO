@@ -97,6 +97,15 @@
             background: var(--brand-dark);
             transform: translateY(-1px);
         }
+        .btn-outline {
+            background: #ffffff;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            border-color: #9ca3af;
+            background: #f9fafb;
+        }
 
         /* ── Alert ── */
         .alert {
@@ -289,12 +298,25 @@
         {{-- Header Section --}}
         <div class="header-section">
             <h1 class="page-title">Daftar Beasiswa</h1>
-            <a href="{{ route('admin.scholarships.create') }}" class="btn btn-brand">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                Tambah Beasiswa
-            </a>
+            <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+                <a href="{{ route('admin.scholarships.trashed') }}" class="btn btn-outline" title="Lihat beasiswa yang diarsipkan">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                    </svg>
+                    <span>Tempat Sampah</span>
+                    @if(isset($trashedCount) && $trashedCount > 0)
+                        <span style="background: #fee2e2; color: #b91c1c; padding: 2px 7px; border-radius: 9999px; font-size: 0.74rem; font-weight: 700; border: 1px solid #fecaca;">
+                            {{ $trashedCount }}
+                        </span>
+                    @endif
+                </a>
+                <a href="{{ route('admin.scholarships.create') }}" class="btn btn-brand">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Tambah Beasiswa
+                </a>
+            </div>
         </div>
 
         {{-- Flash Success Message --}}
