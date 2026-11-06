@@ -233,6 +233,23 @@
             background: var(--brand);
             color: #fff;
         }
+        .btn-delete-sm {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 0.35rem 0.65rem;
+            border-radius: var(--radius-xs);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #b91c1c;
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            transition: all var(--transition);
+            font-family: inherit;
+            margin-left: 4px;
+        }
+        .btn-delete-sm:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
         .hover-title:hover {
             color: var(--brand);
             text-decoration: underline;
@@ -352,10 +369,20 @@
                                         {{ ucfirst($scholarship->status ?? 'Draft') }}
                                     </span>
                                 </td>
-                                <td style="text-align: center;">
+                                <td style="text-align: center; white-space: nowrap;">
                                     <a href="{{ route('admin.scholarships.show', $scholarship) }}" class="btn-detail">
                                         Detail
                                     </a>
+                                    <form method="POST"
+                                          action="{{ route('admin.scholarships.destroy', $scholarship) }}"
+                                          style="display:inline;"
+                                          onsubmit="return confirm('Hapus beasiswa ini?\nData akan diarsipkan dan bisa dipulihkan.')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete-sm">
+                                            🗑️ Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

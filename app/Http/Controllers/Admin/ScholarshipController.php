@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScholarshipRequest;
+use App\Http\Requests\UpdateScholarshipRequest;
 use App\Models\Beasiswa;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ScholarshipController extends Controller
 {
@@ -40,5 +41,44 @@ class ScholarshipController extends Controller
         return redirect()
             ->route('admin.scholarships.index')
             ->with('success', 'Beasiswa berhasil ditambahkan.');
+    }
+
+    public function edit(Beasiswa $scholarship)
+    {
+        $recentScholarships = Beasiswa::latest()->take(5)->get();
+        return view('admin.scholarships.edit', compact('scholarship', 'recentScholarships'));
+    }
+
+    public function update(UpdateScholarshipRequest $request, Beasiswa $scholarship)
+    {
+        $data = $request->validated();
+
+        // Hapus poster lama jika user centang "Hapus Poster" atau upload poster baru
+        if ($request->boolean('hapus_poster') || $request->hasFile('poster')) {
+            if ($scholarship->poster) {
+                Storage::disk('public')->delete($scholarship->poster);
+            }
+            $data['poster'] = null;
+        }
+
+        // Simpan poster baru jika ada
+        if ($request->hasFile('poster')) {
+            $data['poster'] = $request->file('poster')->store('posters', 'public');
+        }
+
+        $scholarship->update($data);
+
+        return redirect()
+            ->route('admin.scholarships.show', $scholarship)
+            ->with('success', 'Data beasiswa berhasil diperbarui.');
+    }
+
+    public function destroy(Beasiswa $scholarship)
+    {
+        $scholarship->delete(); // Soft delete — data tetap ada di DB, deleted_at terisi
+
+        return redirect()
+            ->route('admin.scholarships.index')
+            ->with('success', 'Beasiswa berhasil dihapus.');
     }
 }

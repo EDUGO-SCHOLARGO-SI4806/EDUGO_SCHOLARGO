@@ -58,20 +58,22 @@ DB_PASSWORD=
 | password | string (hashed) |
 | timestamps | — |
 
-### `scholarships`
+### `beasiswas`
 | Kolom | Tipe | Keterangan |
 |---|---|---|
 | id | bigint PK | — |
-| name | string | Nama beasiswa |
-| organizer_name | string | Penyelenggara |
-| description | text | Deskripsi lengkap |
-| level | string | D3 / D4 / S1 / S2 / S3 |
-| category | string(100) nullable | Jenis beasiswa |
-| amount | unsignedBigInteger nullable | Nominal (Rp) |
-| quota | unsignedInteger nullable | Kuota penerima |
-| start_date | date nullable | Tanggal buka pendaftaran |
-| end_date | date nullable | Deadline pendaftaran |
-| source_url | string nullable | URL resmi |
+| nama | string | Nama beasiswa |
+| penyelenggara | string | Penyelenggara |
+| deskripsi | text nullable | Deskripsi lengkap |
+| jenjang | string | D3 / D4 / S1 / S2 / S3 |
+| lokasi | string nullable | Lokasi beasiswa (diselaraskan dgn tim) |
+| jenis_pendanaan | string nullable | Penuh / Parsial (diselaraskan dgn tim) |
+| kategori | string(100) nullable | Jenis beasiswa |
+| nominal | unsignedBigInteger nullable | Nominal (Rp) |
+| kuota | unsignedInteger nullable | Kuota penerima |
+| tanggal_buka | date nullable | Tanggal buka pendaftaran |
+| tanggal_tutup | date nullable | Deadline pendaftaran |
+| link_sumber | string nullable | URL resmi |
 | poster | string nullable | Path file di storage public |
 | status | enum draft/published | Default: draft |
 | timestamps + deleted_at | — | SoftDeletes aktif |
@@ -85,8 +87,10 @@ app/
   Http/
     Controllers/Admin/ScholarshipController.php
     Requests/StoreScholarshipRequest.php
+    Requests/UpdateScholarshipRequest.php
   Models/
-    Scholarship.php
+    Beasiswa.php
+    Scholarship.php (alias/subclass)
     User.php
 
 database/migrations/
@@ -94,6 +98,9 @@ database/migrations/
 
 resources/views/admin/scholarships/
   create.blade.php
+  edit.blade.php
+  index.blade.php
+  show.blade.php
 
 routes/web.php
 ```
@@ -102,19 +109,29 @@ routes/web.php
 
 | Method | URI | Name | Keterangan |
 |---|---|---|---|
+| GET | `/` | — | Redirect ke `admin.scholarships.index` |
+| GET | `/admin/scholarships` | `admin.scholarships.index` | Daftar beasiswa |
 | GET | `/admin/scholarships/create` | `admin.scholarships.create` | Form tambah beasiswa |
 | POST | `/admin/scholarships` | `admin.scholarships.store` | Simpan beasiswa |
+| GET | `/admin/scholarships/{scholarship}` | `admin.scholarships.show` | Detail beasiswa |
+| GET | `/admin/scholarships/{scholarship}/edit` | `admin.scholarships.edit` | Form edit beasiswa |
+| PUT/PATCH | `/admin/scholarships/{scholarship}` | `admin.scholarships.update` | Simpan perubahan beasiswa |
+| DELETE | `/admin/scholarships/{scholarship}` | `admin.scholarships.destroy` | Hapus beasiswa (soft delete) |
 
 ---
 
 ## Product Backlog
 
 ### ✅ PBI-10 — Tambah Beasiswa (Admin)
-Form tambah beasiswa dengan validasi lengkap, Xupload poster, soft delete, dan auto-cleanup file.
+Form tambah beasiswa dengan validasi lengkap, upload poster, soft delete, dan auto-cleanup file.
+
+### ✅ PBI-11 — Daftar dan Detail Beasiswa (Admin)
+Halaman daftar beasiswa (`/admin/scholarships`) dengan pagination, badge status, thumbnail poster, dan halaman detail beasiswa (`/admin/scholarships/{scholarship}`) yang responsif dan aman terhadap data null.
+
+### ✅ PBI-12 — Edit dan Hapus Beasiswa (Admin)
+Method `edit`, `update`, `destroy` pada `ScholarshipController`. Form `edit.blade.php` dengan data pre-filled. Tombol Edit & Hapus (soft delete, konfirmasi JS) di `show.blade.php` dan `index.blade.php`. `UpdateScholarshipRequest.php` dengan mapping EN→ID fields dan aturan validasi lengkap.
 
 ### 🔲 Planned
-- **PBI-11-  Sebagai admin, saya ingin melihat daftar dan detail beasiswa yang sudah ada  agar dapat memantau data yang tersimpan ** 
-- **PBI-12- Sebagai admin, saya ingin mengubah dan menghapus data beasiswa agar informasi tetap akurat dan terbaru 
 ---
 
 ## Konvensi Tim
@@ -122,8 +139,8 @@ Form tambah beasiswa dengan validasi lengkap, Xupload poster, soft delete, dan a
 - **Model:** PascalCase singular — `Scholarship`
 - **Controller:** Grouped di `Admin/`, suffix `Controller`
 - **Request:** `{Aksi}{Model}Request` — `StoreScholarshipRequest`
-- **View:** `admin/scholarships/create.blade.php`
-- **Route name:** `admin.scholarships.store`
+- **View:** `admin/scholarships/create.blade.php`, `index.blade.php`, `show.blade.php`
+- **Route name:** `admin.scholarships.store`, `admin.scholarships.index`, dll.
 - **Validasi:** Selalu pakai Form Request, bukan inline `validate()`
 - **Upload:** Disk `public`, path disimpan di DB
 - **Soft delete:** Wajib untuk semua model data utama
@@ -131,13 +148,8 @@ Form tambah beasiswa dengan validasi lengkap, Xupload poster, soft delete, dan a
 
 ---
 
-## File Panduan di Root
-
-| File | Status | Keterangan |
-|---|---|---|
-| `CONTEXT.md` | ✅ Aktif | Satu-satunya file panduan — update ini |
-| `AGENTS.md` | ⚠️ Jangan dihapus | Dibaca otomatis oleh AI agent (Antigravity, Claude Code, dll.) |
+## Fil
 
 ---
 
-*Last updated: 2026-10-28 · PBI-10 selesai*
+*Last updated: 2026-11-06 · PBI-12 selesai*

@@ -262,13 +262,37 @@
             align-items: center;
             gap: 0.5rem;
         }
-        .btn-outline-disabled {
-            background: #f9fafb;
-            border: 1px dashed #d1d5db;
-            color: #9ca3af;
-            cursor: not-allowed;
-            font-size: 0.8rem;
+        .btn-edit {
+            background: var(--brand-light);
+            color: var(--brand-dark);
+            border: 1px solid #a7f3d0;
+            border-radius: var(--radius-xs);
+            padding: 0.6rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            text-decoration: none;
+            transition: all var(--transition);
         }
+        .btn-edit:hover { background: var(--brand); color: #fff; border-color: var(--brand); }
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            border-radius: var(--radius-xs);
+            padding: 0.6rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all var(--transition);
+            font-family: inherit;
+        }
+        .btn-danger:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
 
         @media (max-width: 640px) {
             .info-grid { grid-template-columns: 1fr; }
@@ -409,14 +433,27 @@
                         &larr; Kembali
                     </a>
 
-                    {{-- Ruang untuk PBI-12 (Ubah dan Hapus) --}}
                     <div class="pbi12-actions">
-                        <span class="btn btn-outline-disabled" title="Tersedia di PBI-12">
-                            ✏️ Edit Beasiswa (PBI-12)
-                        </span>
-                        <span class="btn btn-outline-disabled" title="Tersedia di PBI-12">
-                            🗑️ Hapus Beasiswa (PBI-12)
-                        </span>
+                        <a href="{{ route('admin.scholarships.edit', $scholarship) }}" class="btn btn-edit">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            Edit Beasiswa
+                        </a>
+                        <form method="POST" action="{{ route('admin.scholarships.destroy', $scholarship) }}" id="delete-form-show" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Yakin ingin menghapus beasiswa \"{{ addslashes($scholarship->nama) }}\"?\nData akan diarsipkan (soft delete) dan bisa dipulihkan.')">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+                                    <path d="M10 11v6"/><path d="M14 11v6"/>
+                                    <path d="M9 6V4h6v2"/>
+                                </svg>
+                                Hapus Beasiswa
+                            </button>
+                        </form>
                     </div>
                 </div>
 
