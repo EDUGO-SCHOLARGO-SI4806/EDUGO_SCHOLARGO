@@ -4,25 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScholarshipRequest;
-use App\Models\Scholarship;
+use App\Models\Beasiswa;
+use Illuminate\Http\Request;
 
 class ScholarshipController extends Controller
 {
     public function index()
     {
-        $scholarships = Scholarship::latest()->paginate(10);
+        $scholarships = Beasiswa::latest()->paginate(10);
 
         return view('admin.scholarships.index', compact('scholarships'));
     }
 
-    public function show(Scholarship $scholarship)
+    public function show(Beasiswa $scholarship)
     {
         return view('admin.scholarships.show', compact('scholarship'));
     }
 
     public function create()
     {
-        $recentScholarships = Scholarship::latest()->take(5)->get();
+        $recentScholarships = Beasiswa::latest()->take(5)->get();
         return view('admin.scholarships.create', compact('recentScholarships'));
     }
 
@@ -34,7 +35,7 @@ class ScholarshipController extends Controller
             $data['poster'] = $request->file('poster')->store('posters', 'public');
         }
 
-        Scholarship::create($data);
+        Beasiswa::create($data);
 
         return redirect()
             ->route('admin.scholarships.index')

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ScholarshipController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('admin.scholarships.index');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {

@@ -8,18 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('scholarships', function (Blueprint $table) {
+        Schema::create('beasiswas', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('organizer_name');
-            $table->text('description');
-            $table->string('level');
-            $table->string('category', 100)->nullable();
-            $table->unsignedBigInteger('amount')->nullable();
-            $table->unsignedInteger('quota')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->string('source_url')->nullable();
+            $table->string('nama');
+            $table->string('penyelenggara');
+            $table->text('deskripsi')->nullable();
+            $table->string('jenjang');
+            $table->string('lokasi')->nullable();
+            $table->string('jenis_pendanaan')->nullable();
+            $table->string('kategori', 100)->nullable();
+            $table->unsignedBigInteger('nominal')->nullable();
+            $table->unsignedInteger('kuota')->nullable();
+            $table->date('tanggal_buka')->nullable();
+            $table->date('tanggal_tutup')->nullable();
+            $table->string('link_sumber')->nullable();
             $table->string('poster')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
@@ -29,6 +31,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('scholarships');
+        Schema::dropIfExists('beasiswas');
     }
 };
