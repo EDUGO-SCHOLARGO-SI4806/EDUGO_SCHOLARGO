@@ -665,7 +665,7 @@
         // Konfirmasi Hapus Beasiswa dari halaman edit
         function confirmDeleteScholarship() {
             const nama = @json($scholarship->nama);
-            if (confirm(`Yakin ingin menghapus beasiswa "${nama}"?\n\nData akan diarsipkan (soft delete) dan tidak akan tampil di publik, namun dapat dipulihkan kembali.`)) {
+            if (confirm(`Yakin ingin menghapus beasiswa "${nama}"?\n\nData akan dipindahkan ke Arsip Beasiswa (soft delete) dan tidak akan tampil di publik, namun dapat dipulihkan kembali.`)) {
                 document.getElementById('delete-scholarship-form').submit();
             }
         }

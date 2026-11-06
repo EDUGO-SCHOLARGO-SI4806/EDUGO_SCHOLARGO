@@ -80,7 +80,7 @@ class ScholarshipController extends Controller
 
         return redirect()
             ->route('admin.scholarships.index')
-            ->with('success', 'Beasiswa "' . $scholarship->nama . '" berhasil dipindahkan ke tempat sampah.');
+            ->with('success', 'Beasiswa "' . $scholarship->nama . '" berhasil dipindahkan ke arsip beasiswa.');
     }
 
     /**
@@ -103,7 +103,7 @@ class ScholarshipController extends Controller
 
         return redirect()
             ->route('admin.scholarships.trashed')
-            ->with('success', 'Beasiswa "' . $scholarship->nama . '" berhasil dipulihkan kembali!');
+            ->with('success', 'Beasiswa "' . $scholarship->nama . '" berhasil dipulihkan dari arsip!');
     }
 
     /**

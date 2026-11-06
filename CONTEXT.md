@@ -118,7 +118,7 @@ routes/web.php
 | GET | `/admin/scholarships/{scholarship}/edit` | `admin.scholarships.edit` | Form edit beasiswa |
 | PUT/PATCH | `/admin/scholarships/{scholarship}` | `admin.scholarships.update` | Simpan perubahan beasiswa |
 | DELETE | `/admin/scholarships/{scholarship}` | `admin.scholarships.destroy` | Hapus beasiswa (soft delete) |
-| GET | `/admin/scholarships/trashed` | `admin.scholarships.trashed` | Tempat sampah / arsip beasiswa |
+| GET | `/admin/scholarships/trashed` | `admin.scholarships.trashed` | Arsip beasiswa |
 | POST | `/admin/scholarships/{id}/restore` | `admin.scholarships.restore` | Pulihkan beasiswa dari arsip |
 | DELETE | `/admin/scholarships/{id}/force-delete` | `admin.scholarships.forceDelete` | Hapus permanen beasiswa & file poster |
 
@@ -133,7 +133,7 @@ Form tambah beasiswa dengan validasi lengkap, upload poster, soft delete, dan au
 Halaman daftar beasiswa (`/admin/scholarships`) dengan pagination, badge status, thumbnail poster, dan halaman detail beasiswa (`/admin/scholarships/{scholarship}`) yang responsif dan aman terhadap data null.
 
 ### ✅ PBI-12 — Edit, Hapus, dan Restore Beasiswa (Admin)
-Method `edit`, `update`, `destroy`, `trashed`, `restore`, `forceDelete` pada `ScholarshipController`. Form `edit.blade.php` dengan data pre-filled dan tombol hapus berkonfirmasi. Halaman `trashed.blade.php` (Tempat Sampah) dengan fitur Pulihkan dan Hapus Permanen. Tombol Edit & Hapus (soft delete, konfirmasi JS) di `show.blade.php` dan `index.blade.php`.
+Method `edit`, `update`, `destroy`, `trashed`, `restore`, `forceDelete` pada `ScholarshipController`. Form `edit.blade.php` dengan data pre-filled dan tombol hapus berkonfirmasi. Halaman `trashed.blade.php` (Arsip Beasiswa) dengan fitur Pulihkan dan Hapus Permanen. Tombol Edit & Hapus (soft delete, konfirmasi JS) di `show.blade.php` dan `index.blade.php`.
 
 ### 🔲 Planned
 ---

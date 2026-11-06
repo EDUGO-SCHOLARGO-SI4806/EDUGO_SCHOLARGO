@@ -301,9 +301,11 @@
             <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
                 <a href="{{ route('admin.scholarships.trashed') }}" class="btn btn-outline" title="Lihat beasiswa yang diarsipkan">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+                        <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                        <rect x="1" y="3" width="22" height="5"></rect>
+                        <line x1="10" y1="12" x2="14" y2="12"></line>
                     </svg>
-                    <span>Tempat Sampah</span>
+                    <span>Arsip Beasiswa</span>
                     @if(isset($trashedCount) && $trashedCount > 0)
                         <span style="background: #fee2e2; color: #b91c1c; padding: 2px 7px; border-radius: 9999px; font-size: 0.74rem; font-weight: 700; border: 1px solid #fecaca;">
                             {{ $trashedCount }}

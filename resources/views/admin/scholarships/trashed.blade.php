@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tempat Sampah / Arsip Beasiswa – ScholarGO Admin">
-    <title>Tempat Sampah Beasiswa – ScholarGO Admin</title>
+    <meta name="description" content="Arsip Beasiswa – ScholarGO Admin">
+    <title>Arsip Beasiswa – ScholarGO Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
@@ -262,13 +262,13 @@
             <span>/</span>
             <a href="{{ route('admin.scholarships.index') }}">Beasiswa</a>
             <span>/</span>
-            <span>Tempat Sampah</span>
+            <span>Arsip Beasiswa</span>
         </nav>
 
         {{-- Header Section --}}
         <div class="header-section">
             <h1 class="page-title">
-                <span>🗑️ Tempat Sampah Beasiswa</span>
+                <span>📦 Arsip Beasiswa</span>
             </h1>
             <a href="{{ route('admin.scholarships.index') }}" class="btn btn-ghost">
                 &larr; Kembali ke Daftar Beasiswa
@@ -367,8 +367,8 @@
                             <tr>
                                 <td colspan="7">
                                     <div class="empty-state">
-                                        <div style="font-size:2rem; margin-bottom:0.5rem;">🎉</div>
-                                        <p>Tempat sampah kosong. Tidak ada beasiswa yang diarsipkan saat ini.</p>
+                                        <div style="font-size:2rem; margin-bottom:0.5rem;">📦</div>
+                                        <p>Arsip kosong. Tidak ada beasiswa yang diarsipkan saat ini.</p>
                                         <a href="{{ route('admin.scholarships.index') }}" class="btn btn-ghost">
                                             Kembali ke Daftar Beasiswa
                                         </a>

@@ -444,8 +444,7 @@
                         <form method="POST" action="{{ route('admin.scholarships.destroy', $scholarship) }}" id="delete-form-show" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Yakin ingin menghapus beasiswa \"{{ addslashes($scholarship->nama) }}\"?\nData akan diarsipkan (soft delete) dan bisa dipulihkan.')">
+                            <button type="button" class="btn btn-danger" onclick="confirmDeleteShow()">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
                                     <path d="M10 11v6"/><path d="M14 11v6"/>
@@ -461,5 +460,13 @@
         </div>
     </div>
 
+    <script>
+        function confirmDeleteShow() {
+            const nama = @json($scholarship->nama ?? $scholarship->name);
+            if (confirm(`Yakin ingin menghapus beasiswa "${nama}"?\n\nData akan dipindahkan ke Arsip Beasiswa (soft delete) dan dapat dipulihkan kembali.`)) {
+                document.getElementById('delete-form-show').submit();
+            }
+        }
+    </script>
 </body>
 </html>
