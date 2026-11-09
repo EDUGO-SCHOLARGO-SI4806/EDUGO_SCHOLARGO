@@ -19,4 +19,12 @@ class Scholarship extends Model
     {
         return $this->hasOne(ScholarshipRequirement::class);
     }
+
+    /**
+     * Relasi daftar dokumen wajib per beasiswa (PBI-14 / ED-14)
+     */
+    public function requiredDocuments()
+    {
+        return $this->hasMany(RequiredDocument::class);
+    }
 }

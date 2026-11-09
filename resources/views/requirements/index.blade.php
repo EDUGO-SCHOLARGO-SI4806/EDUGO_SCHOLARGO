@@ -24,11 +24,11 @@
         <div>
             <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-brand-50 text-brand-700 text-xs font-semibold rounded-full mb-2 border border-brand-200">
                 <span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>
-                Sprint 1 • PBI-13
+                Sprint 1 • PBI-13 & PBI-14
             </div>
-            <h2 class="text-2xl font-bold text-gray-900">Kelola Persyaratan Beasiswa</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Kelola Persyaratan & Dokumen Wajib Beasiswa</h2>
             <p class="text-sm text-gray-500 mt-1">
-                Tentukan kriteria kualifikasi IPK minimal dan batas semester aktif untuk seleksi awal pendaftar.
+                Tentukan kriteria kualifikasi (IPK & semester) serta daftar dokumen wajib per beasiswa untuk pendaftar.
             </p>
         </div>
 
@@ -53,6 +53,7 @@
                         <th class="py-3.5 px-6">Program Beasiswa</th>
                         <th class="py-3.5 px-6">Min. IPK</th>
                         <th class="py-3.5 px-6">Min. Semester</th>
+                        <th class="py-3.5 px-6">Dokumen Wajib (PBI-14)</th>
                         <th class="py-3.5 px-6">Status Skrining</th>
                         <th class="py-3.5 px-6 text-right">Aksi</th>
                     </tr>
@@ -97,12 +98,28 @@
                                 @endif
                             </td>
 
+                            <!-- Dokumen Wajib (PBI-14 / ED-14) -->
+                            <td class="py-4 px-6">
+                                @php
+                                    $docCount = $scholarship->requiredDocuments ? $scholarship->requiredDocuments->count() : 0;
+                                    $mandatoryCount = $scholarship->requiredDocuments ? $scholarship->requiredDocuments->where('is_mandatory', true)->count() : 0;
+                                @endphp
+                                @if($docCount > 0)
+                                    <a href="{{ route('requirements.documents', $scholarship->id) }}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                        {{ $docCount }} Berkas ({{ $mandatoryCount }} Wajib)
+                                    </a>
+                                @else
+                                    <span class="text-xs text-gray-400 italic">Belum diatur</span>
+                                @endif
+                            </td>
+
                             <!-- Status Skrining -->
                             <td class="py-4 px-6">
-                                @if($scholarship->requirement)
+                                @if($scholarship->requirement && $docCount > 0)
                                     <span class="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
                                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                        Auto-Screening Siap
+                                        Siap Dipublikasikan
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1 text-xs font-medium text-amber-600">
@@ -115,21 +132,26 @@
                             <!-- Aksi -->
                             <td class="py-4 px-6 text-right">
                                 <div class="inline-flex items-center gap-2">
-                                    <a href="{{ route('scholarships.requirements', $scholarship->id) }}" target="_blank" class="px-3 py-1.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-xs font-medium transition inline-flex items-center gap-1" title="Lihat tampilan tab mahasiswa (Mockup Gambar 26)">
+                                    <a href="{{ route('scholarships.requirements', $scholarship->id) }}" target="_blank" class="px-3 py-1.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-gray-900 text-xs font-medium transition inline-flex items-center gap-1" title="Lihat tampilan tab mahasiswa">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                        <span>Preview Mahasiswa</span>
+                                        <span>Preview</span>
                                     </a>
 
-                                    <a href="{{ route('requirements.edit', $scholarship->id) }}" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition inline-flex items-center gap-1.5">
+                                    <a href="{{ route('requirements.edit', $scholarship->id) }}" class="px-3 py-1.5 rounded-xl border border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-700 text-xs font-semibold transition inline-flex items-center gap-1.5" title="Atur IPK & Semester (PBI-13)">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                                        <span>Atur Kriteria</span>
+                                        <span>Kriteria</span>
+                                    </a>
+
+                                    <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition inline-flex items-center gap-1.5" title="Atur Daftar Dokumen Wajib (PBI-14)">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                        <span>Atur Dokumen</span>
                                     </a>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="py-8 text-center text-gray-400 text-sm">
+                            <td colspan="6" class="py-8 text-center text-gray-400 text-sm">
                                 Belum ada data beasiswa yang tersedia.
                             </td>
                         </tr>
