@@ -30,7 +30,57 @@
             <h4 class="h5">Deskripsi</h4>
             <p>{!! nl2br(e($scholarship->description)) !!}</p>
 
-            {{-- PBI-21 (persyaratan, dokumen, periode) dan PBI-22 (cek kesesuaian) ditambahkan di sini --}}
+            <hr>
+
+            <h4 class="h5">Persyaratan</h4>
+            @if($scholarship->requirement)
+                <ul>
+                    <li>IPK minimum: {{ number_format($scholarship->requirement->min_gpa, 2) }}</li>
+                    <li>Semester minimum: {{ $scholarship->requirement->min_semester }}</li>
+                </ul>
+            @else
+                <p class="text-muted">Belum ada persyaratan kualifikasi.</p>
+            @endif
+
+            <h4 class="h5">Dokumen Wajib</h4>
+            @if($scholarship->requiredDocuments->isEmpty())
+                <p class="text-muted">Belum ada daftar dokumen.</p>
+            @else
+                <ul class="list-unstyled">
+                    @foreach($scholarship->requiredDocuments as $doc)
+                        <li class="mb-2">
+                            <strong>{{ $doc->document_name }}</strong>
+                            <span class="badge {{ $doc->is_mandatory ? 'bg-danger' : 'bg-secondary' }}">
+                                {{ $doc->is_mandatory ? 'Wajib' : 'Opsional' }}
+                            </span>
+                            <span class="text-muted small">({{ $doc->file_format }})</span>
+                            @if($doc->description)
+                                <div class="text-muted small">{{ $doc->description }}</div>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+
+            <h4 class="h5">Periode Pendaftaran</h4>
+            @if($periodeStatus === 'belum_ditentukan')
+                <p class="text-muted">Periode pendaftaran belum ditentukan.</p>
+            @else
+                <p>
+                    {{ $scholarship->start_date->translatedFormat('d F Y') }}
+                    s/d
+                    {{ $scholarship->end_date->translatedFormat('d F Y') }}
+                    @if($periodeStatus === 'dibuka')
+                        <span class="badge bg-success">Dibuka</span>
+                    @elseif($periodeStatus === 'belum_dibuka')
+                        <span class="badge bg-info text-dark">Belum dibuka</span>
+                    @else
+                        <span class="badge bg-secondary">Ditutup</span>
+                    @endif
+                </p>
+            @endif
+
+            {{-- PBI-22 (cek kesesuaian) ditambahkan di sini --}}
         </div>
     </div>
 </div>
