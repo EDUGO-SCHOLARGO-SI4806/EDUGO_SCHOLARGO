@@ -34,6 +34,9 @@
             <div class="sg-card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span><i class="bi bi-person-vcard me-2" style="color: var(--sg-primary);"></i>Data Pribadi</span>
+                    <a href="{{ route('profile.edit') }}" class="btn btn-sg-outline btn-sm">
+                        <i class="bi bi-pencil me-1"></i> Ubah
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="profile-info-item">
@@ -71,6 +74,9 @@
             <div class="sg-card h-100">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span><i class="bi bi-mortarboard me-2" style="color: var(--sg-primary);"></i>Data Akademik</span>
+                    <a href="{{ route('profile.edit') }}" class="btn btn-sg-outline btn-sm">
+                        <i class="bi bi-pencil me-1"></i> Ubah
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="profile-info-item">
