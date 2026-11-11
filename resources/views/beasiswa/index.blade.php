@@ -11,22 +11,23 @@
         body { margin:0; font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--navy); }
         a { text-decoration:none; color:inherit; }
 
-        /*navbarr*/
+        /*navbar*/
         .nav { background:#fff; border-bottom:1px solid #e5e7eb; padding:16px 32px;
                display:flex; align-items:center; gap:32px; }
-        .logo { display:flex; align-items:center; gap:10px; font-size:24px; color:var(--navy); }
-        .logo i { width:32px; height:32px; background:var(--green-btn); border-radius:8px; display:inline-block; }
-        .logo b { color:var(--green); font-weight:500; }
+        .logo { display:flex; align-items:center; gap:8px; font-size:20px; color:var(--navy); }
+        .logo .emo { font-size:24px; line-height:1; }
+        .logo b { color:var(--green-btn); font-weight:400; }
         .search { flex:0 1 296px; margin:0 auto 0 80px; }
-        .search input { width:100%; border:0; background:#f1f4f8; border-radius:8px; padding:11px 14px; font:inherit; font-size:14px; }
-        .menu { display:flex; align-items:center; gap:30px; font-size:14px; font-weight:500; }
-        .menu .on { color:var(--green-btn); }
+        .search input { width:100%; border:0; background:#f1f4f8; border-radius:8px; padding:11px 14px; font:inherit; font-size:14px; outline:none; }
+        .menu { display:flex; align-items:center; gap:30px; }
+        .menu a { font-size:14px; font-weight:500; color:var(--navy); }
+        .menu a.on { color:var(--green-btn); }
         .avatar { width:32px; height:32px; border-radius:50%; background:var(--green); color:#fff;
                   display:flex; align-items:center; justify-content:center; font-size:14px; }
 
         .wrap { max-width:1216px; margin:0 auto; padding:24px 32px 48px; }
 
-        /* herooo */
+        /*heroo*/
         .hero { background:var(--green); color:#fff; border-radius:16px; padding:24px; }
         .hero h1 { margin:0 0 6px; font-size:26px; font-weight:500; }
         .hero p { margin:0 0 20px; font-size:13px; opacity:.9; }
@@ -38,14 +39,14 @@
                     font:inherit; font-size:14px; font-weight:600; cursor:pointer; }
         .count { font-size:13px; opacity:.9; }
 
-        /*heading atas*/
+        /*heading*/
         .head { display:flex; justify-content:space-between; align-items:flex-end; margin:28px 0 16px; }
         .head h2 { margin:0; font-size:20px; }
         .head p { margin:4px 0 0; font-size:12px; color:var(--muted); }
         .sort { font-size:12px; color:var(--muted); }
         .sort select { border:0; background:transparent; font:inherit; font-weight:600; color:var(--navy); cursor:pointer; outline:none; }
 
-        /*buat card*/
+        /*card*/
         .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
         .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; display:flex; flex-direction:column; }
         .org { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--muted); }
@@ -60,6 +61,15 @@
 
         .empty { background:#fff; border:1px dashed #cbd5e1; border-radius:12px; padding:48px; text-align:center; color:var(--muted); grid-column:1/-1; }
 
+        /*buat searcg */
+        .result-info { display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid #e5e7eb;
+                       border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:13px; }
+        .result-info b { color:var(--green); }
+        .result-info a { color:var(--green-btn); font-weight:600; }
+        .empty h4 { margin:0 0 6px; font-size:16px; color:var(--navy); }
+        .empty p { margin:0 0 14px; font-size:13px; }
+        .empty a { display:inline-block; background:var(--green-btn); color:#fff; font-weight:600; font-size:13px; padding:10px 16px; border-radius:8px; }
+
         .foot { margin-top:24px; font-size:12px; color:var(--muted); }
 
         @media (min-width: 1600px) { body { zoom: 1.2; } }
@@ -73,10 +83,11 @@
 @endphp
 
 <header class="nav">
-    <a href="{{ route('beasiswa.index') }}" class="logo"><i></i><span>Scholar<b>GO</b></span></a>
+    <a href="{{ route('beasiswa.index') }}" class="logo"><span class="emo">🎓</span><span>Scholar<b>GO</b></span></a>
 
     <div class="search">
-        <input form="filter-form" type="text" name="q" value="{{ request('q') }}" placeholder="Search">
+        <input form="filter-form" type="search" name="q" value="{{ $keyword }}"
+               maxlength="100" placeholder="Cari Beasiswa" autocomplete="off">
     </div>
 
     <nav class="menu">
@@ -144,6 +155,16 @@
         </div>
     </form>
 
+    @if ($keyword !== '')
+        <div class="result-info">
+            <span>
+                Hasil pencarian untuk <b>"{{ $keyword }}"</b>:
+                {{ $beasiswas->total() }} beasiswa ditemukan
+            </span>
+            <a href="{{ route('beasiswa.index') }}">Reset pencarian</a>
+        </div>
+    @endif
+
     <div class="grid">
         @forelse ($beasiswas as $b)
             <article class="card">
@@ -169,7 +190,16 @@
                 </div>
             </article>
         @empty
-            <div class="empty">Belum ada beasiswa yang sesuai dengan pencarianmu.</div>
+            <div class="empty">
+                @if ($keyword !== '')
+                    <h4>Beasiswa "{{ $keyword }}" tidak ditemukan</h4>
+                    <p>Coba kata kunci lain, periksa ejaan, atau kurangi filter yang aktif.</p>
+                @else
+                    <h4>Belum ada beasiswa yang tersedia</h4>
+                    <p>Silakan cek kembali nanti.</p>
+                @endif
+                <a href="{{ route('beasiswa.index') }}">Lihat semua beasiswa</a>
+            </div>
         @endforelse
     </div>
 
