@@ -5,11 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Model StudentProfile
- * PBI-07 & PBI-08: Data profil akademik mahasiswa
- * Relasi 1-to-1 dengan User
- */
 class StudentProfile extends Model
 {
     use HasFactory;

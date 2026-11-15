@@ -6,10 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * PBI-07 & PBI-08: Tabel student_profiles
-     * Menyimpan data akademik mahasiswa (1-to-1 dengan users)
-     */
     public function up(): void
     {
         Schema::create('student_profiles', function (Blueprint $table) {
@@ -29,7 +25,6 @@ return new class extends Migration
             $table->unique('user_id'); // Satu user satu profil
         });
     }
-
     /**
      * Reverse the migrations.
      */

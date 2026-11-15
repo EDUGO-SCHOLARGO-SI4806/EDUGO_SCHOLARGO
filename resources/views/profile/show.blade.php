@@ -124,6 +124,46 @@
                 </div>
             </div>
         </div>
+
+        {{-- Dokumen Profil --}}
+        <div class="col-12">
+            <div class="sg-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-file-earmark-text me-2" style="color: var(--sg-primary);"></i>Dokumen Profil</span>
+                    <a href="{{ route('profile.documents') }}" class="btn btn-sg-primary btn-sm">
+                        <i class="bi bi-cloud-upload me-1"></i> Upload Dokumen
+                    </a>
+                </div>
+                <div class="card-body">
+                    @if($user->profileDocuments->count() > 0)
+                        @foreach($user->profileDocuments as $doc)
+                            <div class="doc-item">
+                                <div class="doc-icon {{ strtolower($doc->file_extension) }}">
+                                    <i class="bi bi-file-earmark-{{ strtolower($doc->file_extension) === 'pdf' ? 'pdf' : 'image' }}"></i>
+                                </div>
+                                <div class="doc-info">
+                                    <div class="doc-name">{{ $doc->document_type_label }}</div>
+                                    <div class="doc-meta">{{ $doc->original_name }} • {{ $doc->file_size_formatted }} • {{ $doc->created_at->format('d M Y') }}</div>
+                                </div>
+                                <div>
+                                    <a href="{{ route('profile.documents.download', $doc->id) }}" class="btn btn-sm btn-sg-outline">
+                                        <i class="bi bi-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="text-center py-4">
+                            <i class="bi bi-folder2-open" style="font-size: 3rem; color: var(--sg-border);"></i>
+                            <p class="mt-2 text-muted">Belum ada dokumen yang diunggah</p>
+                            <a href="{{ route('profile.documents') }}" class="btn btn-sg-primary btn-sm">
+                                <i class="bi bi-cloud-upload me-1"></i> Upload Dokumen Pertama
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
