@@ -451,7 +451,7 @@
                                     <img src="{{ asset('storage/' . $scholarship->poster) }}"
                                          alt="Poster saat ini"
                                          class="current-poster-thumb"
-                                         onerror="this.src=''; this.style.display='none';">
+                                         onerror="this.onerror=null; this.style.display='none';">
                                     <div class="current-poster-info">
                                         <strong>Poster saat ini tersimpan</strong>
                                         <span>Upload file baru untuk mengganti, atau centang di bawah untuk menghapusnya.</span>

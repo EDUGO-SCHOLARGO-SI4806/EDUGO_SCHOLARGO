@@ -314,6 +314,14 @@
             <span>Detail Beasiswa</span>
         </nav>
 
+        {{-- Flash Success Message --}}
+        @if (session('success'))
+            <div class="alert alert-success" role="alert" style="background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); border-radius: var(--radius-sm); padding: 0.85rem 1.1rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem;">
+                <span class="alert-icon" style="font-weight: 700;">✓</span>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
         {{-- Kembali ke daftar --}}
         <a href="{{ route('admin.scholarships.index') }}" class="nav-back">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">

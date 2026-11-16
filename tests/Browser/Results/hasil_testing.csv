@@ -1,0 +1,29 @@
+﻿PBI ID;Case ID;Test Scenario;Type;Status;Keterangan;Evidence;Waktu Eksekusi
+PBI #10;TC.TambahBeasiswa.001;Tambah beasiswa data lengkap;Positive;Pass;-;PBI10_TC.TambahBeasiswa.001.png;11.11 s
+PBI #10;TC.TambahBeasiswa.002;Tambah beasiswa field wajib saja;Positive;Pass;-;PBI10_TC.TambahBeasiswa.002.png;4.17 s
+PBI #10;TC.TambahBeasiswa.003;Tambah beasiswa status Published;Positive;Pass;-;PBI10_TC.TambahBeasiswa.003.png;3.37 s
+PBI #10;TC.TambahBeasiswa.004;Field wajib kosong;Negative;Pass;-;PBI10_TC.TambahBeasiswa.004.png;2.67 s
+PBI #10;TC.TambahBeasiswa.005;Deadline sebelum tanggal mulai;Negative;Pass;-;PBI10_TC.TambahBeasiswa.005.png;2.87 s
+PBI #10;TC.TambahBeasiswa.006;Poster format salah (PDF);Negative;Pass;-;PBI10_TC.TambahBeasiswa.006.png;2.82 s
+PBI #10;TC.TambahBeasiswa.007;Poster lebih dari 2 MB;Negative;Pass;-;PBI10_TC.TambahBeasiswa.007.png;3.24 s
+PBI #10;TC.TambahBeasiswa.008;Nominal dan kuota tidak valid;Negative;Pass;-;PBI10_TC.TambahBeasiswa.008.png;3.07 s
+PBI #10;TC.TambahBeasiswa.009;Link sumber tidak valid;Negative;Pass;-;PBI10_TC.TambahBeasiswa.009.png;2.87 s
+PBI #10;TC.TambahBeasiswa.010;Reset form;Positive;Pass;-;PBI10_TC.TambahBeasiswa.010.png;2.57 s
+PBI #11;TC.DaftarBeasiswa.001;Lihat daftar beasiswa (ada data, tabel tampil, urutan terbaru di atas);Positive;Pass;-;PBI11_TC.DaftarBeasiswa.001.png;1.66 s
+PBI #11;TC.DaftarBeasiswa.002;Pagination — seed 12 data, tampil 10 per halaman, navigasi muncul, klik halaman 2;Positive;Pass;-;PBI11_TC.DaftarBeasiswa.002.png;1.37 s
+PBI #11;TC.DaftarBeasiswa.003;Detail data lengkap — semua field sesuai data, poster tampil, link sumber bisa diklik;Positive;Pass;-;PBI11_TC.DaftarBeasiswa.003.png;1.27 s
+PBI #11;TC.DaftarBeasiswa.004;"Detail data minimal — tanpa poster/nominal/kuota/deadline, field kosong tampil ""-"" atau ""Tidak terbatas""";Positive;Pass;-;PBI11_TC.DaftarBeasiswa.004.png;1.23 s
+PBI #11;TC.DaftarBeasiswa.005;Navigasi ke form tambah beasiswa dari halaman daftar;Positive;Pass;-;PBI11_TC.DaftarBeasiswa.005.png;1.03 s
+PBI #11;TC.DaftarBeasiswa.006;"Daftar kosong — pesan ""Belum ada data beasiswa"" tampil tanpa error";Negative;Pass;-;PBI11_TC.DaftarBeasiswa.006.png;0.91 s
+PBI #11;TC.DaftarBeasiswa.007;Akses detail ID tidak ada (9999) — halaman 404 tampil;Negative;Pass;-;PBI11_TC.DaftarBeasiswa.007.png;0.83 s
+PBI #11;TC.DaftarBeasiswa.008;Hapus beasiswa lewat UI (dialog Chrome) — soft delete, pindah ke arsip beasiswa;Negative;Pass;-;PBI11_TC.DaftarBeasiswa.008.png;1.49 s
+PBI #12;TC.HapusBeasiswa.001;Hapus via UI: dialog Chrome tampil, klik OK, pesan sukses tampil, data hilang dari daftar, muncul di arsip;Positive;Pass;-;PBI12_TC.HapusBeasiswa.001.png;1.65 s
+PBI #12;TC.HapusBeasiswa.002;Batalkan hapus: klik Batal (dismissDialog) pada dialog confirm, data tetap ada di daftar;Negative;Pass;-;PBI12_TC.HapusBeasiswa.002.png;1.66 s
+PBI #12;TC.HapusBeasiswa.003;Akses detail beasiswa yang sudah di-soft-delete — halaman 404 tampil;Negative;Pass;-;PBI12_TC.HapusBeasiswa.003.png;0.79 s
+PBI #12;TC.UbahBeasiswa.001;Ubah nama beasiswa dan deadline, verifikasi data terupdate di detail dan daftar;Positive;Pass;-;PBI12_TC.UbahBeasiswa.001.png;1.94 s
+PBI #12;TC.UbahBeasiswa.002;Ganti poster beasiswa: upload JPG 1 MB, pratinjau tampil, poster lama terhapus dari storage;Positive;Pass;-;PBI12_TC.UbahBeasiswa.002.png;1.65 s
+PBI #12;TC.UbahBeasiswa.003;Ubah status dari Draft menjadi Published, verifikasi status di detail dan daftar;Positive;Pass;-;PBI12_TC.UbahBeasiswa.003.png;2.16 s
+PBI #12;TC.UbahBeasiswa.004;Kosongkan field wajib Nama: data ditolak, pesan error tampil, data lama di DB tidak berubah;Negative;Pass;-;PBI12_TC.UbahBeasiswa.004.png;1.45 s
+PBI #12;TC.UbahBeasiswa.005;Tanggal Mulai 10/12/2026, Deadline 01/12/2026: data ditolak, pesan error tanggal tampil, data lama tidak berubah;Negative;Pass;-;PBI12_TC.UbahBeasiswa.005.png;1.86 s
+PBI #12;TC.UbahBeasiswa.006;Poster tidak valid: format PDF dan ukuran 3 MB, poster lama tetap tersimpan;Negative;Pass;-;PBI12_TC.UbahBeasiswa.006.png;3.18 s
+PBI #12;TC.UbahBeasiswa.007;Akses halaman edit dengan ID tidak ada (9999) — halaman 404 tampil;Negative;Pass;-;PBI12_TC.UbahBeasiswa.007.png;0.79 s
