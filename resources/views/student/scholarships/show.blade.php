@@ -80,7 +80,52 @@
                 </p>
             @endif
 
-            {{-- PBI-22 (cek kesesuaian) ditambahkan di sini --}}
+            <hr>
+
+            <h4 class="h5">Cek Kesesuaian Profil</h4>
+            @if(is_null($eligibility))
+                <div class="alert alert-info mb-0">
+                    Login untuk mengecek kesesuaian profilmu dengan syarat beasiswa ini.
+                    @if(Route::has('login')) <a href="{{ route('login') }}">Login</a> @endif
+                </div>
+            @elseif($eligibility['status'] === 'no_requirement')
+                <div class="alert alert-secondary mb-0">
+                    Beasiswa ini belum punya syarat IPK dan semester, jadi tidak ada yang dicek.
+                </div>
+            @elseif($eligibility['status'] === 'incomplete_profile')
+                <div class="alert alert-warning mb-0">
+                    Data akademik (IPK dan semester) belum lengkap. Lengkapi profilmu dulu agar bisa dicek.
+                    @if(Route::has('profile.edit')) <a href="{{ route('profile.edit') }}">Lengkapi profil</a> @endif
+                </div>
+            @else
+                <table class="table table-sm w-auto">
+                    <thead>
+                        <tr><th>Syarat</th><th>Dibutuhkan</th><th>Profilmu</th><th>Hasil</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach($eligibility['checks'] as $c)
+                            <tr>
+                                <td>{{ $c['label'] }}</td>
+                                <td>&ge; {{ $c['required'] }}</td>
+                                <td>{{ $c['actual'] }}</td>
+                                <td>
+                                    @if($c['passed'])
+                                        <span class="badge bg-success">Sesuai</span>
+                                    @else
+                                        <span class="badge bg-danger">Belum sesuai</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                @if($eligibility['status'] === 'eligible')
+                    <div class="alert alert-success mb-0">Profilmu memenuhi syarat beasiswa ini.</div>
+                @else
+                    <div class="alert alert-danger mb-0">Profilmu belum memenuhi syarat beasiswa ini.</div>
+                @endif
+            @endif
         </div>
     </div>
 </div>
