@@ -24,11 +24,11 @@
         <div>
             <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-brand-50 text-brand-700 text-xs font-semibold rounded-full mb-2 border border-brand-200">
                 <span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>
-                Sprint 1 • PBI-13 & PBI-14
+                Sprint 1 • PBI-13, PBI-14, & PBI-15
             </div>
-            <h2 class="text-2xl font-bold text-gray-900">Kelola Persyaratan & Dokumen Wajib Beasiswa</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Kelola Persyaratan, Dokumen, & Periode Beasiswa</h2>
             <p class="text-sm text-gray-500 mt-1">
-                Tentukan kriteria kualifikasi (IPK & semester) serta daftar dokumen wajib per beasiswa untuk pendaftar.
+                Tentukan kriteria kualifikasi (IPK & semester), daftar dokumen wajib, serta periode dan batas waktu pendaftaran beasiswa.
             </p>
         </div>
 
@@ -54,6 +54,7 @@
                         <th class="py-3.5 px-6">Min. IPK</th>
                         <th class="py-3.5 px-6">Min. Semester</th>
                         <th class="py-3.5 px-6">Dokumen Wajib (PBI-14)</th>
+                        <th class="py-3.5 px-6">Periode & Batas Waktu (PBI-15)</th>
                         <th class="py-3.5 px-6">Status Skrining</th>
                         <th class="py-3.5 px-6 text-right">Aksi</th>
                     </tr>
@@ -114,9 +115,43 @@
                                 @endif
                             </td>
 
+                            <!-- Periode & Batas Waktu (PBI-15) -->
+                            <td class="py-4 px-6">
+                                @if($scholarship->registrationPeriod)
+                                    @php
+                                        $period = $scholarship->registrationPeriod;
+                                    @endphp
+                                    <div class="space-y-1">
+                                        @if($period->isOpen())
+                                            <a href="{{ route('requirements.period', $scholarship->id) }}" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                                Buka • Sisa {{ $period->daysRemaining() }} Hari
+                                            </a>
+                                        @elseif($period->isUpcoming())
+                                            <a href="{{ route('requirements.period', $scholarship->id) }}" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                                Mendatang
+                                            </a>
+                                        @else
+                                            <a href="{{ route('requirements.period', $scholarship->id) }}" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                                Ditutup
+                                            </a>
+                                        @endif
+                                        <p class="text-[11px] text-gray-400">
+                                            Batas: {{ \Carbon\Carbon::parse($period->close_date)->translatedFormat('d M Y') }}
+                                        </p>
+                                    </div>
+                                @else
+                                    <a href="{{ route('requirements.period', $scholarship->id) }}" class="text-xs text-gray-400 hover:text-brand-600 italic">
+                                        + Atur Jadwal
+                                    </a>
+                                @endif
+                            </td>
+
                             <!-- Status Skrining -->
                             <td class="py-4 px-6">
-                                @if($scholarship->requirement && $docCount > 0)
+                                @if($scholarship->requirement && $docCount > 0 && $scholarship->registrationPeriod)
                                     <span class="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
                                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                                         Siap Dipublikasikan
@@ -142,16 +177,21 @@
                                         <span>Kriteria</span>
                                     </a>
 
-                                    <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition inline-flex items-center gap-1.5" title="Atur Daftar Dokumen Wajib (PBI-14)">
+                                    <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3 py-1.5 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold transition inline-flex items-center gap-1.5" title="Atur Daftar Dokumen Wajib (PBI-14)">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                        <span>Atur Dokumen</span>
+                                        <span>Dokumen</span>
+                                    </a>
+
+                                    <a href="{{ route('requirements.period', $scholarship->id) }}" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition inline-flex items-center gap-1.5" title="Atur Periode & Batas Waktu (PBI-15)">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                        <span>Periode</span>
                                     </a>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="py-8 text-center text-gray-400 text-sm">
+                            <td colspan="7" class="py-8 text-center text-gray-400 text-sm">
                                 Belum ada data beasiswa yang tersedia.
                             </td>
                         </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RegistrationPeriod;
 use App\Models\RequiredDocument;
 use App\Models\Scholarship;
 use App\Models\ScholarshipRequirement;
@@ -10,11 +11,11 @@ use Illuminate\Http\Request;
 class ScholarshipRequirementController extends Controller
 {
     /**
-     * Menampilkan daftar beasiswa, kriteria kualifikasi (PBI-13), dan daftar dokumen wajib (PBI-14)
+     * Menampilkan daftar beasiswa, kriteria kualifikasi (PBI-13), dokumen wajib (PBI-14), dan periode pendaftaran (PBI-15)
      */
     public function index()
     {
-        $scholarships = Scholarship::with(['requirement', 'requiredDocuments'])->get();
+        $scholarships = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->get();
 
         return view('requirements.index', compact('scholarships'));
     }
@@ -24,7 +25,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function edit($id)
     {
-        $scholarship = Scholarship::with('requirement')->findOrFail($id);
+        $scholarship = Scholarship::with(['requirement', 'registrationPeriod', 'requiredDocuments'])->findOrFail($id);
         
         $requirement = $scholarship->requirement ?? new ScholarshipRequirement([
             'scholarship_id' => $scholarship->id,
@@ -72,7 +73,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function documents($id)
     {
-        $scholarship = Scholarship::with(['requirement', 'requiredDocuments'])->findOrFail($id);
+        $scholarship = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->findOrFail($id);
 
         // Daftar rekomendasi dokumen umum beasiswa untuk memudahkan admin memilih
         $presetDocuments = [
@@ -170,11 +171,95 @@ class ScholarshipRequirementController extends Controller
     }
 
     /**
+     * Menampilkan halaman kelola periode dan batas waktu pendaftaran (PBI-15)
+     */
+    public function period($id)
+    {
+        $scholarship = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->findOrFail($id);
+
+        $period = $scholarship->registrationPeriod ?? new RegistrationPeriod([
+            'scholarship_id' => $scholarship->id,
+            'open_date'      => now()->toDateString(),
+            'close_date'     => now()->addDays(30)->toDateString(),
+            'is_active'      => true,
+            'description'    => "Periode pendaftaran {$scholarship->name}",
+        ]);
+
+        return view('requirements.period', compact('scholarship', 'period'));
+    }
+
+    /**
+     * Menyimpan atau memperbarui periode dan batas waktu pendaftaran (PBI-15)
+     */
+    public function updatePeriod(Request $request, $id)
+    {
+        $scholarship = Scholarship::findOrFail($id);
+
+        $validated = $request->validate([
+            'open_date'   => 'required|date',
+            'close_date'  => 'required|date|after_or_equal:open_date',
+            'is_active'   => 'required|boolean',
+            'description' => 'nullable|string|max:255',
+        ], [
+            'open_date.required'         => 'Tanggal pembukaan pendaftaran wajib diisi.',
+            'open_date.date'             => 'Format tanggal pembukaan pendaftaran tidak valid.',
+            'close_date.required'        => 'Batas waktu penutupan pendaftaran wajib diisi.',
+            'close_date.date'            => 'Format tanggal penutupan pendaftaran tidak valid.',
+            'close_date.after_or_equal'  => 'Batas waktu penutupan pendaftaran tidak boleh lebih awal dari tanggal pembukaan.',
+            'is_active.required'         => 'Status aktif periode pendaftaran wajib dipilih.',
+            'description.max'            => 'Keterangan periode maksimal 255 karakter.',
+        ]);
+
+        $scholarship->registrationPeriod()->updateOrCreate(
+            ['scholarship_id' => $scholarship->id],
+            [
+                'open_date'   => $validated['open_date'],
+                'close_date'  => $validated['close_date'],
+                'is_active'   => (bool) $validated['is_active'],
+                'description' => $validated['description'] ? trim($validated['description']) : null,
+            ]
+        );
+
+        return redirect()
+            ->route('requirements.period', $scholarship->id)
+            ->with('success', "Periode pendaftaran beasiswa '{$scholarship->name}' berhasil diperbarui.");
+    }
+
+    /**
+     * Mengubah cepat status aktif pendaftaran (buka / tutup manual) (PBI-15)
+     */
+    public function togglePeriod($id)
+    {
+        $scholarship = Scholarship::with('registrationPeriod')->findOrFail($id);
+
+        if (!$scholarship->registrationPeriod) {
+            $scholarship->registrationPeriod()->create([
+                'open_date'   => now()->toDateString(),
+                'close_date'  => now()->addDays(30)->toDateString(),
+                'is_active'   => true,
+                'description' => "Periode pendaftaran {$scholarship->name}",
+            ]);
+            $statusMsg = "Pendaftaran berhasil diaktifkan.";
+        } else {
+            $period = $scholarship->registrationPeriod;
+            $period->is_active = !$period->is_active;
+            $period->save();
+            $statusMsg = $period->is_active
+                ? "Pendaftaran berhasil dibuka kembali."
+                : "Pendaftaran berhasil ditutup sementara secara manual.";
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', $statusMsg);
+    }
+
+    /**
      * Menampilkan tampilan publik mahasiswa (Mockup Gambar 26) dengan Tab Persyaratan aktif
      */
     public function show($id)
     {
-        $scholarship = Scholarship::with(['requirement', 'requiredDocuments'])->findOrFail($id);
+        $scholarship = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->findOrFail($id);
 
         return view('requirements.show', compact('scholarship'));
     }

@@ -13,7 +13,7 @@ Route::get('/', function () {
     return redirect()->route('requirements.index');
 });
 
-// FR-05 Kelola Persyaratan Beasiswa (PBI-13 & PBI-14) - Portal Mitra
+// FR-05 Kelola Persyaratan Beasiswa (PBI-13, PBI-14, & PBI-15) - Portal Mitra
 Route::prefix('admin')->group(function () {
     Route::get('/requirements', [ScholarshipRequirementController::class, 'index'])->name('requirements.index');
     Route::get('/requirements/{id}/edit', [ScholarshipRequirementController::class, 'edit'])->name('requirements.edit');
@@ -24,6 +24,11 @@ Route::prefix('admin')->group(function () {
     Route::post('/requirements/{id}/documents', [ScholarshipRequirementController::class, 'storeDocument'])->name('requirements.documents.store');
     Route::patch('/requirements/{id}/documents/{docId}/toggle', [ScholarshipRequirementController::class, 'toggleDocumentMandatory'])->name('requirements.documents.toggle');
     Route::delete('/requirements/{id}/documents/{docId}', [ScholarshipRequirementController::class, 'destroyDocument'])->name('requirements.documents.destroy');
+
+    // PBI-15 - Mengatur Periode dan Batas Waktu Pendaftaran
+    Route::get('/requirements/{id}/period', [ScholarshipRequirementController::class, 'period'])->name('requirements.period');
+    Route::put('/requirements/{id}/period', [ScholarshipRequirementController::class, 'updatePeriod'])->name('requirements.period.update');
+    Route::patch('/requirements/{id}/period/toggle', [ScholarshipRequirementController::class, 'togglePeriod'])->name('requirements.period.toggle');
 });
 
 // Tampilan Publik Persyaratan Mahasiswa (Mockup Gambar 26)

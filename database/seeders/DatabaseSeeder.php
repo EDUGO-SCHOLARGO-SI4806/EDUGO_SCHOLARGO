@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\RegistrationPeriod;
 use App\Models\RequiredDocument;
 use App\Models\Scholarship;
 use App\Models\ScholarshipRequirement;
@@ -106,6 +107,35 @@ class DatabaseSeeder extends Seeder
                     ]
                 );
             }
+        }
+
+        // 4. Seed sample registration periods per scholarship (PBI-15)
+        $periodData = [
+            $s1->id => [
+                'open_date'   => '2026-10-01',
+                'close_date'  => '2026-12-15',
+                'is_active'   => true,
+                'description' => 'Periode pendaftaran gelombang utama Beasiswa Djarum Plus 2026.',
+            ],
+            $s2->id => [
+                'open_date'   => '2026-09-15',
+                'close_date'  => '2026-11-30',
+                'is_active'   => true,
+                'description' => 'Periode pendaftaran Beasiswa Unggulan Kemendikbud tahun ajaran 2026/2027.',
+            ],
+            $s3->id => [
+                'open_date'   => '2026-11-01',
+                'close_date'  => '2027-01-31',
+                'is_active'   => true,
+                'description' => 'Periode pendaftaran GenBI - Beasiswa Bank Indonesia semester genap 2026.',
+            ],
+        ];
+
+        foreach ($periodData as $scholarshipId => $period) {
+            RegistrationPeriod::firstOrCreate(
+                ['scholarship_id' => $scholarshipId],
+                $period
+            );
         }
     }
 }

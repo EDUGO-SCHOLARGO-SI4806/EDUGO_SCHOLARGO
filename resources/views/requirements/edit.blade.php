@@ -32,9 +32,12 @@
                 <span>ID: #{{ $scholarship->id }}</span>
             </p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold border border-white/20 transition">
                 Daftar Dokumen Wajib (PBI-14)
+            </a>
+            <a href="{{ route('requirements.period', $scholarship->id) }}" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold border border-white/20 transition">
+                Periode Pendaftaran (PBI-15)
             </a>
         </div>
     </div>

@@ -27,4 +27,12 @@ class Scholarship extends Model
     {
         return $this->hasMany(RequiredDocument::class);
     }
+
+    /**
+     * Relasi periode pendaftaran per beasiswa (PBI-15)
+     */
+    public function registrationPeriod()
+    {
+        return $this->hasOne(RegistrationPeriod::class);
+    }
 }
