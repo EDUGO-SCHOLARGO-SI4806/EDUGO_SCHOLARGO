@@ -10,7 +10,7 @@ class BeasiswaSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['Global Education Foundation', 'Beasiswa Global Leaders 2026',  'S1',     'Dalam negeri', 20],
+            ['Global Education Foundation', 'Beasiswa Global Leaders 2026',  'S1',     'Dalam negeri', -1],
             ['Yayasan Cendekia Indonesia',  'Beasiswa Cendekia Nusantara',   'S1, S2', 'Dalam negeri', 25],
             ['NusaTech Foundation',         'Future Innovators Scholarship', 'S1',     'Dalam negeri', 30],
             ['Merdeka Education',           'Beasiswa Pendidikan Merdeka',   'D4, S1', 'Dalam negeri', 70],
