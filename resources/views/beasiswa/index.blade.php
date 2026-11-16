@@ -38,6 +38,7 @@
         .btn-cari { background:var(--navy); color:#fff; border:0; border-radius:8px; height:50px; padding:0 28px;
                     font:inherit; font-size:14px; font-weight:600; cursor:pointer; }
         .count { font-size:13px; opacity:.9; }
+        .btn-reset { color:#fff; font-size:13px; text-decoration:underline; opacity:.9; }
 
         /*heading*/
         .head { display:flex; justify-content:space-between; align-items:flex-end; margin:28px 0 16px; }
@@ -61,11 +62,13 @@
 
         .empty { background:#fff; border:1px dashed #cbd5e1; border-radius:12px; padding:48px; text-align:center; color:var(--muted); grid-column:1/-1; }
 
-        /*buat searcg */
-        .result-info { display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid #e5e7eb;
+        /*search & filter*/
+        .result-info { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; background:#fff; border:1px solid #e5e7eb;
                        border-radius:10px; padding:12px 16px; margin-bottom:16px; font-size:13px; }
         .result-info b { color:var(--green); }
         .result-info a { color:var(--green-btn); font-weight:600; }
+        .chips { display:flex; gap:8px; flex-wrap:wrap; }
+        .chip { background:#e7f6ef; color:var(--green); font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; }
         .empty h4 { margin:0 0 6px; font-size:16px; color:var(--navy); }
         .empty p { margin:0 0 14px; font-size:13px; }
         .empty a { display:inline-block; background:var(--green-btn); color:#fff; font-weight:600; font-size:13px; padding:10px 16px; border-radius:8px; }
@@ -137,6 +140,9 @@
 
                 <button type="submit" class="btn-cari">Cari Beasiswa</button>
                 <span class="count">{{ $beasiswas->total() }} peluang tersedia</span>
+                @if ($filter)
+                    <a href="{{ route('beasiswa.index', array_filter(['q' => $keyword])) }}" class="btn-reset">Reset filter</a>
+                @endif
             </div>
         </section>
 
@@ -155,13 +161,18 @@
         </div>
     </form>
 
-    @if ($keyword !== '')
+    @if ($keyword !== '' || $filter)
         <div class="result-info">
             <span>
-                Hasil pencarian untuk <b>"{{ $keyword }}"</b>:
                 {{ $beasiswas->total() }} beasiswa ditemukan
+                @if ($keyword !== '') untuk <b>"{{ $keyword }}"</b> @endif
             </span>
-            <a href="{{ route('beasiswa.index') }}">Reset pencarian</a>
+            <div class="chips">
+                @if (request('batas_waktu')) <span class="chip">≤ {{ request('batas_waktu') }} hari</span> @endif
+                @if (request('jenjang')) <span class="chip">{{ request('jenjang') }}</span> @endif
+                @if (request('pendanaan')) <span class="chip">{{ request('pendanaan') }}</span> @endif
+            </div>
+            <a href="{{ route('beasiswa.index') }}">Reset semua</a>
         </div>
     @endif
 
@@ -191,9 +202,9 @@
             </article>
         @empty
             <div class="empty">
-                @if ($keyword !== '')
-                    <h4>Beasiswa "{{ $keyword }}" tidak ditemukan</h4>
-                    <p>Coba kata kunci lain, periksa ejaan, atau kurangi filter yang aktif.</p>
+                @if ($keyword !== '' || $filter)
+                    <h4>Tidak ada beasiswa yang cocok</h4>
+                    <p>Coba ubah atau kurangi filter, atau pakai kata kunci lain.</p>
                 @else
                     <h4>Belum ada beasiswa yang tersedia</h4>
                     <p>Silakan cek kembali nanti.</p>

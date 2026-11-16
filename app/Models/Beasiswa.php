@@ -36,7 +36,6 @@ class Beasiswa extends Model
         return $q
             ->when($f['q'] ?? null, function ($query, $keyword) {
                 foreach (preg_split('/\s+/', trim($keyword)) as $kata) {
-                    $kata = addcslashes($kata, '%_\\');
 
                     $query->where(function ($s) use ($kata) {
                         $s->where('nama', 'like', "%{$kata}%")

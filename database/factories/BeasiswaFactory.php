@@ -31,7 +31,7 @@ class BeasiswaFactory extends Factory
             'lokasi'          => fake()->randomElement(['Dalam negeri', 'Luar negeri', 'Teknologi']),
             'jenis_pendanaan' => fake()->randomElement(['Pendanaan Penuh', 'Pendanaan Parsial']),
             'deskripsi'       => 'Program beasiswa untuk mahasiswa berprestasi.',
-            'tanggal_tutup'   => now()->addDays(rand(1, 60)),
+            'tanggal_tutup'   => now()->addDays(rand(30, 90)),
         ];
     }
 }

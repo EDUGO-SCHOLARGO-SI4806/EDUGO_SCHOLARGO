@@ -10,12 +10,12 @@ class BeasiswaSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['Global Education Foundation', 'Beasiswa Global Leaders 2026',  'S1',     'Dalam negeri', 5],
-            ['Yayasan Cendekia Indonesia',  'Beasiswa Cendekia Nusantara',   'S1, S2', 'Dalam negeri', 12],
-            ['NusaTech Foundation',         'Future Innovators Scholarship', 'S1',     'Dalam negeri', 21],
-            ['Merdeka Education',           'Beasiswa Pendidikan Merdeka',   'D4, S1', 'Dalam negeri', 18],
-            ['Green Future Indonesia',      'Beasiswa Green Generation',     'S1',     'Dalam negeri', 8],
-            ['Digital Indonesia Foundation','Beasiswa Talenta Digital',      'S1, S2', 'Teknologi',    14],
+            ['Global Education Foundation', 'Beasiswa Global Leaders 2026',  'S1',     'Dalam negeri', 20],
+            ['Yayasan Cendekia Indonesia',  'Beasiswa Cendekia Nusantara',   'S1, S2', 'Dalam negeri', 25],
+            ['NusaTech Foundation',         'Future Innovators Scholarship', 'S1',     'Dalam negeri', 30],
+            ['Merdeka Education',           'Beasiswa Pendidikan Merdeka',   'D4, S1', 'Dalam negeri', 70],
+            ['Green Future Indonesia',      'Beasiswa Green Generation',     'S1',     'Dalam negeri', 30],
+            ['Digital Indonesia Foundation','Beasiswa Talenta Digital',      'S1, S2', 'Teknologi',    34],
         ];
 
         foreach ($data as [$penyelenggara, $nama, $jenjang, $lokasi, $hari]) {
