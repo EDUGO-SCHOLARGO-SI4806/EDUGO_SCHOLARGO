@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Konfigurasi khusus Laravel Dusk (dipakai otomatis oleh: php artisan dusk).
+    Sengaja TIDAK memaksa database sqlite :memory: seperti phpunit.xml,
+    karena browser dan server harus memakai database yang sama (lihat .env.dusk.local).
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Browser">
+            <directory>tests/Browser</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
