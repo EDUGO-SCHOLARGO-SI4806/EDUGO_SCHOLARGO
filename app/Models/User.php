@@ -4,8 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -19,12 +17,30 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    // Nilai kolom `role`. Semua anggota tim sebaiknya memakai konstanta ini.
     // Nilai kolom `role`. Semua anggota tim memakai konstanta ini.
     public const ROLE_STUDENT = 'mahasiswa';
     public const ROLE_ADMIN = 'admin';
     public const ROLE_SUPER_ADMIN = 'super_admin';
     public const ROLE_ORGANIZER = 'penyelenggara';
 
+    /**
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+    ];
+
+    /**
+     * @var list<string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     public const ROLE_LABELS = [
         self::ROLE_SUPER_ADMIN => 'Super Admin',
         self::ROLE_ADMIN => 'Admin',
@@ -113,6 +129,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function organizerProfile(): HasOne
+    {
+        return $this->hasOne(OrganizerProfile::class);
+    }
+
+    public function isOrganizer(): bool
+    {
+        return $this->role === self::ROLE_ORGANIZER;
+    }
+}
     /**
      * Relasi ke StudentProfile (1-to-1)
      */
