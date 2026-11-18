@@ -8,14 +8,6 @@ use Tests\Browser\Support\RecordsResult;
 use Tests\Browser\Support\ScholarshipHelpers;
 use Tests\DuskTestCase;
 
-/**
- * TC.TambahBeasiswa.002 – Tambah beasiswa field wajib saja (Positive)
- *
- * Pre-condition : Admin berada di /admin/scholarships/create
- * Langkah       :
- *   1) Isi HANYA field wajib (Nama, Penyelenggara, Deskripsi, Jenjang, Status)
- *   2) Klik Simpan → data tersimpan, field opsional kosong, tidak error
- */
 class TambahBeasiswa002Test extends DuskTestCase
 {
     use DatabaseMigrations, RecordsResult, ScholarshipHelpers;
@@ -57,8 +49,7 @@ class TambahBeasiswa002Test extends DuskTestCase
                     $browser->waitForText('berhasil', 10)
                             ->assertPathIs('/admin/scholarships');
 
-                    // Verifikasi: tersimpan, field opsional null
-                    // EXTRA: query DB – verifikasi tersimpan, field opsional null
+        
                     $this->assertDatabaseHas('beasiswas', [
                         'nama'         => 'Beasiswa Wajib Saja TC002',
                         'penyelenggara'=> 'Penyelenggara TC002',

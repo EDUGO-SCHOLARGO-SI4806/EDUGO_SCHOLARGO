@@ -8,15 +8,7 @@ use Tests\Browser\Support\RecordsResult;
 use Tests\Browser\Support\ScholarshipHelpers;
 use Tests\DuskTestCase;
 
-/**
- * TC.TambahBeasiswa.001 – Tambah beasiswa data lengkap (Positive)
- *
- * Pre-condition : Admin berada di /admin/scholarships/create
- * Langkah       :
- *   1) Isi semua field valid
- *   2) Pilih poster JPG 1 MB → pratinjau tampil
- *   3) Klik Simpan → data tersimpan, pesan sukses tampil
- */
+
 class TambahBeasiswa001Test extends DuskTestCase
 {
     use DatabaseMigrations, RecordsResult, ScholarshipHelpers;
@@ -36,7 +28,6 @@ class TambahBeasiswa001Test extends DuskTestCase
                             ->visit('/admin/scholarships/create')
                             ->assertPathIs('/admin/scholarships/create');
 
-                    // Step 1: Isi semua field valid (termasuk opsional)
                     $this->fillValidForm($browser, [
                         'name'           => 'Beasiswa Uji Otomatis 001',
                         'organizer_name' => 'Lembaga Dusk Testing',
@@ -51,19 +42,16 @@ class TambahBeasiswa001Test extends DuskTestCase
                         'status'         => 'draft',
                     ]);
 
-                    // Step 2: Upload poster JPG 1 MB, tunggu pratinjau tampil
-                    // EXTRA: attach() – satu-satunya cara upload file di Dusk
+         
                     $browser->attach('poster', $this->fixture('poster_1mb.jpg'))
                             ->waitFor('#poster-preview-card', 5);
 
-                    // Step 3: Klik Simpan → redirect ke daftar, pesan sukses tampil
                     $browser->press('Simpan');
                     // EXTRA: waitForText – tunggu redirect selesai dan pesan sukses muncul
                     $browser->waitForText('berhasil', 10)
                             ->assertPathIs('/admin/scholarships');
 
-                    // Verifikasi data tersimpan di database
-                    // EXTRA: query DB – verifikasi data tersimpan di database
+            
                     $this->assertDatabaseHas('beasiswas', [
                         'nama'          => 'Beasiswa Uji Otomatis 001',
                         'penyelenggara' => 'Lembaga Dusk Testing',

@@ -8,14 +8,7 @@ use Tests\Browser\Support\RecordsResult;
 use Tests\Browser\Support\ScholarshipHelpers;
 use Tests\DuskTestCase;
 
-/**
- * TC.TambahBeasiswa.003 – Tambah beasiswa status Published (Positive)
- *
- * Pre-condition : Admin berada di /admin/scholarships/create
- * Langkah       :
- *   1) Isi form valid, pilih Status = Published
- *   2) Klik Simpan → data tersimpan dengan status 'published'
- */
+
 class TambahBeasiswa003Test extends DuskTestCase
 {
     use DatabaseMigrations, RecordsResult, ScholarshipHelpers;

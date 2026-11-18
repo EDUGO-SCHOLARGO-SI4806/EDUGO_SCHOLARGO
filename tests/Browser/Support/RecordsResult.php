@@ -115,7 +115,7 @@ trait RecordsResult
                 rewind($fp);
             }
             while (($row = fgetcsv($fp, 0, ',', '"', '\\')) !== false) {
-                if ($row[0] === 'PBI ID') {
+                if (!isset($row[1]) || $row[0] === 'PBI ID') {
                     continue; // skip header
                 }
                 if ($row[1] === $caseId) {

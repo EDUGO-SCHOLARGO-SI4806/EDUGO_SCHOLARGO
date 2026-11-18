@@ -19,8 +19,7 @@ class DaftarBeasiswa003Test extends DuskTestCase
     {
         $admin = $this->makeAdmin();
 
-        // Siapkan file poster di disk public agar elemen poster tampil
-        // EXTRA: Storage – menyiapkan file poster dummy di public disk
+
         Storage::disk('public')->put('posters/poster_lengkap.jpg', 'fake-image-data');
 
         $scholarship = $this->makeScholarship([

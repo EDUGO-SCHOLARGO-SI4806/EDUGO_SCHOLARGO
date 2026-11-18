@@ -36,13 +36,10 @@ class TambahBeasiswa009Test extends DuskTestCase
                     // Submit form
                     $browser->click('#btn-submit');
 
-                    // Tunggu pesan error server untuk URL tidak valid
-                    // EXTRA: waitForText – tunggu pesan error server untuk URL tidak valid
                     $browser->waitForText('Link sumber harus berupa URL yang valid.', 10)
                             ->assertSee('Link sumber harus berupa URL yang valid.');
 
-                    // Pastikan tidak ada data tersimpan di database
-                    // EXTRA: query DB – pastikan tidak ada data tersimpan di database
+
                     $this->assertDatabaseCount('beasiswas', 0);
 
                     $this->shot($browser, 'PBI10_TC.TambahBeasiswa.009');

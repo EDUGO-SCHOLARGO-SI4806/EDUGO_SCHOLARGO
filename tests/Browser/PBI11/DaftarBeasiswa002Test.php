@@ -18,8 +18,7 @@ class DaftarBeasiswa002Test extends DuskTestCase
     {
         $admin = $this->makeAdmin();
 
-        // Seed 12 data (antara 11 sampai 15 data) dengan urutan waktu
-        // Beasiswa Uji 01 paling lama, Beasiswa Uji 12 paling baru
+
         for ($i = 1; $i <= 12; $i++) {
             $num = str_pad((string) $i, 2, '0', STR_PAD_LEFT);
             $this->makeScholarship([
