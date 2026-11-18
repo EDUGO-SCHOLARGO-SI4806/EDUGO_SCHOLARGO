@@ -21,6 +21,9 @@ class PeriodePendaftaran003Test extends DuskTestCase
                 $this->browse(function (Browser $browser) {
                     $browser->visit('/admin/requirements/1/period')
                             ->script([
+                                "document.querySelector('form').setAttribute('novalidate', '')",
+                                "document.querySelector('[name=open_date]').removeAttribute('required')",
+                                "document.querySelector('[name=close_date]').removeAttribute('required')",
                                 "document.querySelector('[name=open_date]').value=''",
                                 "document.querySelector('[name=close_date]').value=''",
                             ]);

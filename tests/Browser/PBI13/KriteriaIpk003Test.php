@@ -20,7 +20,13 @@ class KriteriaIpk003Test extends DuskTestCase
             function () {
                 $this->browse(function (Browser $browser) {
                     $browser->visit('/admin/requirements/1/edit')
-                            ->clear('min_gpa')
+                            ->script([
+                                "document.querySelector('input[name=min_gpa]').removeAttribute('max')",
+                                "document.querySelector('input[name=min_gpa]').removeAttribute('min')",
+                                "document.querySelector('form').setAttribute('novalidate', '')",
+                            ]);
+
+                    $browser->clear('min_gpa')
                             ->type('min_gpa', '-1.00')
                             ->press('Simpan Kriteria')
                             ->assertSee('0.00 dan 4.00');

@@ -20,9 +20,14 @@ class DokumenWajib003Test extends DuskTestCase
             function () {
                 $this->browse(function (Browser $browser) {
                     $browser->visit('/admin/requirements/1/documents')
-                            ->clear('document_name')
+                            ->script([
+                                "document.querySelector('form').setAttribute('novalidate', '')",
+                                "document.querySelector('input[name=document_name]').removeAttribute('required')",
+                            ]);
+
+                    $browser->clear('document_name')
                             ->press('Tambahkan Dokumen')
-                            ->assertSee('wajib diisi');
+                            ->assertSee('Nama dokumen wajib diisi');
 
                     $this->shot($browser, 'PBI14_TC.DokumenWajib.003');
                 });

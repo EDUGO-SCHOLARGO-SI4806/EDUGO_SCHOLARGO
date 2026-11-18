@@ -24,7 +24,7 @@ class DokumenWajib002Test extends DuskTestCase
                     $browser->visit('/admin/requirements/1/documents')
                             ->type('document_name', $docName)
                             ->type('description', 'Kumpulan karya portofolio desain.')
-                            ->select('file_format', 'PDF, JPG')
+                            ->select('file_format', 'JPG')
                             ->select('is_mandatory', '0')
                             ->press('Tambahkan Dokumen')
                             ->waitForText('Berhasil', 5)
