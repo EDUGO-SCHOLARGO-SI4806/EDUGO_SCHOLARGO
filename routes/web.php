@@ -1,7 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ScholarshipController;
+use App\Http\Controllers\BeasiswaController;
 use App\Http\Controllers\ScholarshipRequirementController;
+use App\Http\Controllers\Student\ScholarshipDetailController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -10,7 +13,18 @@ use App\Http\Controllers\ScholarshipRequirementController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('requirements.index');
+    return redirect()->route('admin.scholarships.index');
+});
+
+// Admin Routes (PBI Mitra & Admin)
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Rute Tempat Sampah & Pemulihan (Harus di atas Route::resource agar tidak tertimpa {scholarship})
+    Route::get('scholarships/trashed', [ScholarshipController::class, 'trashed'])->name('scholarships.trashed');
+    Route::post('scholarships/{id}/restore', [ScholarshipController::class, 'restore'])->name('scholarships.restore');
+    Route::delete('scholarships/{id}/force-delete', [ScholarshipController::class, 'forceDelete'])->name('scholarships.forceDelete');
+
+    Route::resource('scholarships', ScholarshipController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 });
 
 // FR-05 Kelola Persyaratan Beasiswa (PBI-13, PBI-14, & PBI-15) - Portal Mitra
@@ -31,5 +45,13 @@ Route::prefix('admin')->group(function () {
     Route::patch('/requirements/{id}/period/toggle', [ScholarshipRequirementController::class, 'togglePeriod'])->name('requirements.period.toggle');
 });
 
+// Student
+Route::get('/scholarships/{scholarship}', [ScholarshipDetailController::class, 'show'])
+    ->name('student.scholarships.show');
+
 // Tampilan Publik Persyaratan Mahasiswa (Mockup Gambar 26)
 Route::get('/scholarships/{id}/persyaratan', [ScholarshipRequirementController::class, 'show'])->name('scholarships.requirements');
+
+Route::get('/beasiswa', [BeasiswaController::class, 'index'])->name('beasiswa.index');
+
+require __DIR__.'/admin.php';

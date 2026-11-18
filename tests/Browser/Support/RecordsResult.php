@@ -54,7 +54,7 @@ trait RecordsResult
 
     /**
      * Ambil screenshot setelah langkah terakhir berhasil.
-     * Nama file: rata (tanpa subfolder) ? PBI10_TC.TambahBeasiswa.001.png
+     * Nama file: rata (tanpa subfolder) → PBI10_TC.TambahBeasiswa.001.png
      */
     protected function shot(Browser $browser, string $caseId = ''): string
     {
@@ -70,7 +70,7 @@ trait RecordsResult
 
         // Buat nama file yang aman (izinkan titik, huruf, angka, underscore, strip)
         $filename = preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $caseId);
-        // EXTRA: screenshot() � mengambil screenshot bukti eksekusi test
+        // EXTRA: screenshot() – mengambil screenshot bukti eksekusi test
         $browser->screenshot($filename);
 
         $this->lastEvidence = $filename . '.png';
@@ -78,9 +78,9 @@ trait RecordsResult
         return $filename . '.png';
     }
 
-    // -------------------------------------------------------------
+    // ─────────────────────────────────────────────────────────────
     // Internals
-    // -------------------------------------------------------------
+    // ─────────────────────────────────────────────────────────────
 
     private function writeToCsv(
         string $pbi,

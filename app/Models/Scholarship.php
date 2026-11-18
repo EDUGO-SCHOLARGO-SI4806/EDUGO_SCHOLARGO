@@ -2,22 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Scholarship extends Model
+/**
+ * Class Scholarship
+ * Alias/Wrapper ke Model Beasiswa demi backward compatibility,
+ * sekaligus membawa relasi requirements, documents, dan period untuk PBI-13, 14, 15.
+ */
+class Scholarship extends Beasiswa
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'name',
-        'organizer',
-        'description',
-    ];
-
     public function requirement()
     {
-        return $this->hasOne(ScholarshipRequirement::class);
+        return $this->hasOne(ScholarshipRequirement::class, 'scholarship_id');
     }
 
     /**
@@ -25,7 +19,7 @@ class Scholarship extends Model
      */
     public function requiredDocuments()
     {
-        return $this->hasMany(RequiredDocument::class);
+        return $this->hasMany(RequiredDocument::class, 'scholarship_id');
     }
 
     /**
@@ -33,6 +27,6 @@ class Scholarship extends Model
      */
     public function registrationPeriod()
     {
-        return $this->hasOne(RegistrationPeriod::class);
+        return $this->hasOne(RegistrationPeriod::class, 'scholarship_id');
     }
 }
