@@ -3,25 +3,34 @@
 @section('title', 'Manajemen Akun')
 
 @section('content')
-    <div class="mb-6">
-        <h1 class="text-2xl font-semibold">Manajemen Akun</h1>
-        <p class="mt-1 text-sm text-gray-500">Daftar seluruh akun di ScholarGo.</p>
+    <div class="mb-6 flex items-start justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Manajemen Akun</h1>
+            <p class="mt-1 text-sm text-gray-500">Daftar seluruh akun di ScholarGO.</p>
+        </div>
+
+        @if ($pendingCount > 0)
+            <a href="{{ route('admin.accounts.index', ['role' => 'penyelenggara', 'status' => 'pending']) }}"
+               class="rounded-xl bg-yellow-50 px-4 py-2 text-sm font-medium text-yellow-800 ring-1 ring-yellow-200 hover:bg-yellow-100">
+                {{ $pendingCount }} penyelenggara menunggu verifikasi
+            </a>
+        @endif
     </div>
 
     {{-- PBI-05: cari dan filter --}}
     <form method="GET" action="{{ route('admin.accounts.index') }}"
-          class="mb-6 grid gap-3 rounded-lg border border-gray-200 bg-white p-4 md:grid-cols-[1fr_180px_200px_auto]">
+          class="mb-6 grid gap-3 rounded-2xl border border-gray-200 bg-white p-4 md:grid-cols-[1fr_180px_200px_auto]">
         <input type="text" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="Cari nama atau email..."
-               class="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-gray-500 focus:outline-none">
+               class="rounded-xl border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none">
 
-        <select name="role" class="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+        <select name="role" class="rounded-xl border border-gray-300 px-3 py-2 text-sm">
             <option value="">Semua peran</option>
             @foreach (\App\Models\User::ROLE_LABELS as $value => $label)
                 <option value="{{ $value }}" @selected(($filters['role'] ?? null) === $value)>{{ $label }}</option>
             @endforeach
         </select>
 
-        <select name="status" class="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+        <select name="status" class="rounded-xl border border-gray-300 px-3 py-2 text-sm">
             <option value="">Semua status verifikasi</option>
             @foreach (\App\Models\User::STATUS_LABELS as $value => $label)
                 <option value="{{ $value }}" @selected(($filters['status'] ?? null) === $value)>{{ $label }}</option>
@@ -29,14 +38,14 @@
         </select>
 
         <div class="flex gap-2">
-            <button type="submit" class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Terapkan</button>
+            <button type="submit" class="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Terapkan</button>
             @if ($hasFilter)
-                <a href="{{ route('admin.accounts.index') }}" class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Reset</a>
+                <a href="{{ route('admin.accounts.index') }}" class="rounded-xl border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Reset</a>
             @endif
         </div>
     </form>
 
-    <div class="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white">
         <table class="min-w-full divide-y divide-gray-200 text-sm">
             <thead class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                 <tr>
@@ -60,7 +69,7 @@
                         </td>
                         <td class="px-4 py-3">
                             @if ($account->statusBadgeClass())
-                                <span class="rounded-full px-2.5 py-0.5 text-xs font-medium {{ $account->statusBadgeClass() }}">{{ $account->verificationLabel() }}</span>
+                                <span class="whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium {{ $account->statusBadgeClass() }}">{{ $account->verificationLabel() }}</span>
                             @else
                                 <span class="text-gray-400">-</span>
                             @endif
@@ -68,7 +77,9 @@
                         <td class="px-4 py-3 text-gray-600">{{ $account->created_at?->format('d M Y') }}</td>
                         <td class="px-4 py-3 text-right">
                             <a href="{{ route('admin.accounts.show', $account) }}"
-                               class="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700">Detail</a>
+                               class="rounded-xl bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700">
+                                {{ $account->organizerProfile?->isPending() ? 'Tinjau' : 'Detail' }}
+                            </a>
                         </td>
                     </tr>
                 @empty
