@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "dbbd8e8cdce85706b2dd40cdfaeed0ad",
+    "content-hash": "7a4592b80dc35543a29318c18b6cea76",
     "packages": [
         {
             "name": "brick/math",
@@ -6377,6 +6378,81 @@
         {
             "name": "mockery/mockery",
             "version": "1.6.15",
+            "name": "laravel/dusk",
+            "version": "v8.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/dusk.git",
+                "reference": "23f49df0447b018a38c7aac0662410331b9cc552"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/23f49df0447b018a38c7aac0662410331b9cc552",
+                "reference": "23f49df0447b018a38c7aac0662410331b9cc552",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-zip": "*",
+                "guzzlehttp/guzzle": "^7.5|^8.0",
+                "illuminate/console": "^12.0|^13.0",
+                "illuminate/support": "^12.0|^13.0",
+                "php": "^8.2",
+                "php-webdriver/webdriver": "^1.15.2",
+                "symfony/console": "^6.2|^7.0|^8.0",
+                "symfony/finder": "^6.2|^7.0|^8.0",
+                "symfony/process": "^6.2|^7.0|^8.0",
+                "vlucas/phpdotenv": "^5.2"
+            },
+            "require-dev": {
+                "laravel/framework": "^12.69|^13.30",
+                "mockery/mockery": "^1.6",
+                "orchestra/testbench-core": "^10.8|^11.0",
+                "phpstan/phpstan": "2.2.15",
+                "phpunit/phpunit": "^11.0|^12.0.1|^13.0",
+                "psy/psysh": "^0.11.12|^0.12",
+                "symfony/yaml": "^6.2|^7.0|^8.0"
+            },
+            "suggest": {
+                "ext-pcntl": "Used to gracefully terminate Dusk when tests are running."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Dusk\\DuskServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Dusk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel Dusk provides simple end-to-end testing and browser automation.",
+            "keywords": [
+                "laravel",
+                "testing",
+                "webdriver"
+            ],
+            "support": {
+                "source": "https://github.com/laravel/dusk/tree/v8.8.0"
+            },
+            "time": "2026-11-09T14:41:34+00:00"
+        },
+        {
+            "name": "laravel/pail",
+            "version": "v1.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",

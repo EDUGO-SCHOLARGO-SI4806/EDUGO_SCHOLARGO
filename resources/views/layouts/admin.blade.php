@@ -47,11 +47,13 @@
 <body class="bg-gray-50 text-gray-800 antialiased flex min-h-screen">
 
     <!-- Sidebar Mitra -->
+    <!-- Sidebar Mitra (Mockup Gambar 25) -->
     <aside class="w-64 bg-navy-900 text-gray-300 flex flex-col justify-between hidden md:flex shrink-0">
         <div>
             <!-- Logo Header -->
             <div class="px-6 py-6 border-b border-navy-800 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-lg shadow-brand-600/30">
+                    <!-- Graduation Cap Icon -->
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -67,11 +69,13 @@
             <div class="mx-4 my-4 p-3 bg-navy-800/60 rounded-xl border border-navy-800 text-xs">
                 <p class="text-gray-400 text-[10px] uppercase font-semibold">Instansi / Mitra</p>
                 <p class="font-semibold text-white truncate">{{ auth()->user()->organizerProfile?->institution_name ?? 'Data lembaga belum dilengkapi' }}</p>
+                <p class="font-semibold text-white truncate">Global Education Foundation</p>
             </div>
 
             <!-- Navigation Links -->
             <nav class="px-3 space-y-1.5 text-sm">
                 <a href="{{ route('organizer.documents.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-navy-800/80 transition">
+                <a href="{{ route('requirements.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-navy-800/80 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                     <span>Dashboard</span>
                 </a>
@@ -88,6 +92,8 @@
                 </a>
 
                 <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-navy-800/80 transition">
+                <!-- Beasiswa Saya (Active) -->
+                <a href="{{ route('requirements.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-brand-600 text-white font-medium shadow-md shadow-brand-600/30 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                     <span>Beasiswa Saya</span>
                 </a>
@@ -116,6 +122,16 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a2 2 0 01-2-2V7a2 2 0 012-2h4a3 3 0 013 3v1" /></svg>
                 </button>
             </form>
+                    AG
+                </div>
+                <div class="text-xs">
+                    <p class="font-semibold text-white">Andika Gilang</p>
+                    <p class="text-gray-400 text-[10px]">Administrator</p>
+                </div>
+            </div>
+            <span class="text-gray-500 hover:text-white cursor-pointer" title="Keluar">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+            </span>
         </div>
     </aside>
 
@@ -127,6 +143,9 @@
                 <a href="{{ route('organizer.documents.index') }}" class="hover:text-brand-600 font-medium">Portal Mitra</a>
                 <span>/</span>
                 <span class="text-gray-900 font-semibold">@yield('breadcrumb', 'Dokumen Legalitas')</span>
+                <a href="{{ route('requirements.index') }}" class="hover:text-brand-600 font-medium">Portal Mitra</a>
+                <span>/</span>
+                <span class="text-gray-900 font-semibold">@yield('breadcrumb', 'Beasiswa Saya')</span>
             </div>
 
             <div class="flex items-center gap-4">
