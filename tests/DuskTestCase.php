@@ -23,6 +23,33 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     /**
+     * Define hooks to migrate the database before and after each test.
+     */
+    public function runDatabaseMigrations()
+    {
+        $this->beforeRefreshingDatabase();
+        $this->artisan('migrate:fresh', $this->migrateFreshUsing());
+        $this->app[\Illuminate\Contracts\Console\Kernel::class]->setArtisan(null);
+        $this->afterRefreshingDatabase();
+
+        $this->beforeApplicationDestroyed(function () {
+            \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+            $this->artisan('migrate:rollback');
+            \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+
+            \Illuminate\Foundation\Testing\RefreshDatabaseState::$migrated = false;
+        });
+    }
+
+    /**
+     * Determine the default base URL for the tests.
+     */
+    protected function baseUrl(): string
+    {
+        return env('APP_URL', 'http://127.0.0.1:8000');
+    }
+
+    /**
      * Create the RemoteWebDriver instance.
      */
     protected function driver(): RemoteWebDriver
