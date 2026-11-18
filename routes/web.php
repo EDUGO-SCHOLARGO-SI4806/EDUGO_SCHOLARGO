@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 Route::get('/beasiswa', [BeasiswaController::class, 'index'])->name('beasiswa.index');
+require __DIR__.'/admin.php';
