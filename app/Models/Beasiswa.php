@@ -41,7 +41,7 @@ class Beasiswa extends Model
         ];
     }
 
-    // Accessor: Hitung sisa hari sampai batas pendaftaran (milik Fira)
+    // Accessor: Hitung sisa hari sampai batas pendaftaran
     public function getSisaHariAttribute(): int
     {
         if (! $this->tanggal_tutup) {
@@ -51,7 +51,7 @@ class Beasiswa extends Model
         return max(0, (int) now()->startOfDay()->diffInDays($this->tanggal_tutup->copy()->startOfDay(), false));
     }
 
-    // Scope: Hanya beasiswa aktif / masih dibuka (milik Fira)
+    // Scope: Hanya beasiswa aktif / masih dibuka
     public function scopeAktif(Builder $q): Builder
     {
         return $q->where('status', 'published')
@@ -61,14 +61,21 @@ class Beasiswa extends Model
                  });
     }
 
-    // Scope: Filter pencarian (milik Fira)
+    // Scope: Filter pencarian (mendukung multi-kata dari origin/main)
     public function scopeFilter(Builder $q, array $f): Builder
     {
         return $q
-            ->when($f['q'] ?? null, fn ($q, $v) => $q->where(function ($s) use ($v) {
-                $s->where('nama', 'like', "%{$v}%")
-                  ->orWhere('penyelenggara', 'like', "%{$v}%");
-            }))
+            ->when($f['q'] ?? null, function ($query, $keyword) {
+                foreach (preg_split('/\s+/', trim($keyword)) as $kata) {
+                    $query->where(function ($s) use ($kata) {
+                        $s->where('nama', 'like', "%{$kata}%")
+                          ->orWhere('penyelenggara', 'like', "%{$kata}%")
+                          ->orWhere('jenjang', 'like', "%{$kata}%")
+                          ->orWhere('lokasi', 'like', "%{$kata}%")
+                          ->orWhere('deskripsi', 'like', "%{$kata}%");
+                    });
+                }
+            })
             ->when($f['batas_waktu'] ?? null, fn ($q, $v) =>
                 $q->whereDate('tanggal_tutup', '<=', today()->addDays((int) $v)))
             ->when($f['jenjang'] ?? null, fn ($q, $v) => $q->where('jenjang', 'like', "%{$v}%"))

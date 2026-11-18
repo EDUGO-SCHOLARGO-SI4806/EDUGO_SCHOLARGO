@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BeasiswaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ScholarshipController;
 
@@ -16,3 +17,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('scholarships', ScholarshipController::class)
         ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 });
+use App\Http\Controllers\Student\ScholarshipDetailController;
+
+// Student
+Route::get('/scholarships/{scholarship}', [ScholarshipDetailController::class, 'show'])
+    ->name('student.scholarships.show');
+
+Route::get('/beasiswa', [BeasiswaController::class, 'index'])->name('beasiswa.index');
+require __DIR__.'/admin.php';
