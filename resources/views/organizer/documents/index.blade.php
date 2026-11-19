@@ -39,13 +39,13 @@
         </div>
 
         @if ($profile->isPending())
-            <p class="mt-4 text-sm text-gray-600">Dokumen Anda sedang ditinjau oleh Super Admin. Mohon tunggu hingga proses verifikasi selesai.</p>
+            <p class="mt-4 text-sm text-gray-600">Dokumen Anda sedang ditinjau oleh Admin. Mohon tunggu hingga proses verifikasi selesai.</p>
         @elseif ($profile->isApproved())
             <p class="mt-4 text-sm text-gray-600">Akun Anda sudah terverifikasi sebagai penyelenggara beasiswa.</p>
         @elseif ($profile->isRejected())
             <div dusk="rejection-note" class="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-            <p class="font-semibold">Catatan penolakan dari Super Admin</p>
-            <p class="mt-1">{{ $profile->verification_note ?: 'Tidak ada catatan dari Super Admin.' }}</p>
+            <p class="font-semibold">Catatan penolakan dari Admin</p>
+            <p class="mt-1">{{ $profile->verification_note ?: 'Tidak ada catatan dari Admin.' }}</p>
             </div>
         @endif
         

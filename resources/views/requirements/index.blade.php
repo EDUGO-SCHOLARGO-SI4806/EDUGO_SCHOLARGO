@@ -24,7 +24,7 @@
         <div>
             <div class="inline-flex items-center gap-2 px-2.5 py-1 bg-brand-50 text-brand-700 text-xs font-semibold rounded-full mb-2 border border-brand-200">
                 <span class="w-1.5 h-1.5 rounded-full bg-brand-600"></span>
-                Sprint 1 • PBI-13, PBI-14, & PBI-15
+                Portal Mitra • Persyaratan & Kuota
             </div>
             <h2 class="text-2xl font-bold text-gray-900">Kelola Persyaratan, Dokumen, & Periode Beasiswa</h2>
             <p class="text-sm text-gray-500 mt-1">
@@ -33,6 +33,10 @@
         </div>
 
         <div class="flex items-center gap-3">
+            <a href="{{ route('admin.scholarships.index') }}"
+               class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 bg-white hover:bg-gray-50 transition">
+                ← Katalog Beasiswa
+            </a>
             <span class="text-xs text-gray-500 bg-gray-100 px-3 py-2 rounded-xl font-medium">
                 Total: <strong class="text-gray-800">{{ $scholarships->count() }} Program Beasiswa</strong>
             </span>
@@ -53,8 +57,8 @@
                         <th class="py-3.5 px-6">Program Beasiswa</th>
                         <th class="py-3.5 px-6">Min. IPK</th>
                         <th class="py-3.5 px-6">Min. Semester</th>
-                        <th class="py-3.5 px-6">Dokumen Wajib (PBI-14)</th>
-                        <th class="py-3.5 px-6">Periode & Batas Waktu (PBI-15)</th>
+                        <th class="py-3.5 px-6">Dokumen Wajib</th>
+                        <th class="py-3.5 px-6">Periode & Batas Waktu</th>
                         <th class="py-3.5 px-6">Status Skrining</th>
                         <th class="py-3.5 px-6 text-right">Aksi</th>
                     </tr>
@@ -172,17 +176,17 @@
                                         <span>Preview</span>
                                     </a>
 
-                                    <a href="{{ route('requirements.edit', $scholarship->id) }}" class="px-3 py-1.5 rounded-xl border border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-700 text-xs font-semibold transition inline-flex items-center gap-1.5" title="Atur IPK & Semester (PBI-13)">
+                                    <a href="{{ route('requirements.edit', $scholarship->id) }}" class="px-3 py-1.5 rounded-xl border border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-700 text-xs font-semibold transition inline-flex items-center gap-1.5" title="Atur Kriteria IPK & Semester">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                                         <span>Kriteria</span>
                                     </a>
 
-                                    <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3 py-1.5 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold transition inline-flex items-center gap-1.5" title="Atur Daftar Dokumen Wajib (PBI-14)">
+                                    <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3 py-1.5 rounded-xl border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold transition inline-flex items-center gap-1.5" title="Atur Daftar Dokumen Wajib">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                         <span>Dokumen</span>
                                     </a>
 
-                                    <a href="{{ route('requirements.period', $scholarship->id) }}" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition inline-flex items-center gap-1.5" title="Atur Periode & Batas Waktu (PBI-15)">
+                                    <a href="{{ route('requirements.period', $scholarship->id) }}" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-sm transition inline-flex items-center gap-1.5" title="Atur Periode & Batas Waktu">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                         <span>Periode</span>
                                     </a>

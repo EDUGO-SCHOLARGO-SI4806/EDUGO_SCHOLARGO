@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Daftar beasiswa untuk admin ScholarGO">
-    <title>Daftar Beasiswa – ScholarGO Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
-    <style>
+@extends('layouts.admin')
+
+@section('title', 'Katalog Beasiswa')
+@section('breadcrumb', 'Admin / Katalog Beasiswa')
+
+@push('styles')
+<style>
         /* ── Reset & Base ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -37,15 +33,11 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-page);
             color: var(--text-primary);
-            min-height: 100vh;
-            padding: 2rem 1rem 5rem;
         }
 
         .container {
             max-width: 1100px;
-            margin: 0 auto;
         }
 
         /* ── Breadcrumb ── */
@@ -242,6 +234,26 @@
             background: var(--brand);
             color: #fff;
         }
+        .btn-requirements {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-xs);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #047857;
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+            text-decoration: none;
+            transition: all var(--transition);
+            margin-right: 4px;
+        }
+        .btn-requirements:hover {
+            background: #059669;
+            color: #fff;
+            border-color: #059669;
+        }
         .btn-delete-sm {
             display: inline-flex;
             align-items: center;
@@ -282,23 +294,21 @@
             background: #fafbfb;
         }
     </style>
-</head>
-<body>
+@endpush
 
-    <div class="container">
-        {{-- Breadcrumb --}}
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="#">Admin</a>
-            <span>/</span>
-            <span>Beasiswa</span>
-            <span>/</span>
-            <span>Daftar Beasiswa</span>
-        </nav>
+@section('content')
 
+    <div class="container" style="max-width: 100%;">
         {{-- Header Section --}}
         <div class="header-section">
-            <h1 class="page-title">Daftar Beasiswa</h1>
+            <div>
+                <h1 class="page-title">Daftar Beasiswa</h1>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Katalog program beasiswa yang dikelola oleh mitra / admin</p>
+            </div>
             <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
+                <a href="{{ route('requirements.index') }}" class="btn btn-outline" style="border-color: #10b981; color: #047857; background: #ecfdf5; font-weight: 600;" title="Kelola Persyaratan & Kuota Beasiswa">
+                    ⚙️ Persyaratan & Kuota
+                </a>
                 <a href="{{ route('admin.scholarships.trashed') }}" class="btn btn-outline" title="Lihat beasiswa yang diarsipkan">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="21 8 21 21 3 21 3 8"></polyline>
@@ -394,6 +404,9 @@
                                     </span>
                                 </td>
                                 <td style="text-align: center; white-space: nowrap;">
+                                    <a href="{{ route('requirements.edit', $scholarship->id) }}" class="btn-requirements" title="Kelola Persyaratan Beasiswa">
+                                        ⚙️ Persyaratan
+                                    </a>
                                     <a href="{{ route('admin.scholarships.show', $scholarship) }}" class="btn-detail">
                                         Detail
                                     </a>
@@ -433,5 +446,4 @@
         </div>
     </div>
 
-</body>
-</html>
+@endsection

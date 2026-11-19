@@ -421,6 +421,21 @@
                 <div class="section-title">Deskripsi Beasiswa</div>
                 <div class="description-text">{{ $scholarship->description }}</div>
 
+                {{-- Persyaratan & Kuota (Fitur Andika) --}}
+                <div style="margin-top: 1.5rem; padding: 1.25rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
+                        <strong style="color: #166534; font-size: 0.95rem;">⚙️ Persyaratan & Kuota</strong>
+                        <a href="{{ route('requirements.edit', $scholarship->id) }}" style="font-size: 0.82rem; font-weight: 600; color: #15803d; text-decoration: underline;">
+                            Ubah Persyaratan &rarr;
+                        </a>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #374151; display: flex; flex-wrap: wrap; gap: 1.5rem;">
+                        <div>Min. IPK: <strong>{{ $scholarship->requirement?->min_gpa ? number_format($scholarship->requirement->min_gpa, 2) : 'Belum diatur' }}</strong></div>
+                        <div>Min. Semester: <strong>{{ $scholarship->requirement?->min_semester ? 'Semester ' . $scholarship->requirement->min_semester : 'Belum diatur' }}</strong></div>
+                        <div>Dokumen Wajib: <strong>{{ $scholarship->requiredDocuments?->count() ?? 0 }} berkas</strong></div>
+                    </div>
+                </div>
+
                 {{-- Link Sumber Resmi --}}
                 @if ($scholarship->source_url)
                     <div class="source-link-box">
@@ -442,6 +457,9 @@
                     </a>
 
                     <div class="pbi12-actions">
+                        <a href="{{ route('requirements.edit', $scholarship->id) }}" class="btn btn-edit" style="background:#059669; color:#fff;" title="Kelola Persyaratan Beasiswa">
+                            ⚙️ Atur Persyaratan
+                        </a>
                         <a href="{{ route('admin.scholarships.edit', $scholarship) }}" class="btn btn-edit">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>

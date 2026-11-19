@@ -12,12 +12,20 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('penyelenggara');
-            $table->string('jenjang');                 
-            $table->string('lokasi');              
-            $table->string('jenis_pendanaan');
             $table->text('deskripsi')->nullable();
-            $table->date('tanggal_tutup');
+            $table->string('jenjang');
+            $table->string('lokasi')->nullable();
+            $table->string('jenis_pendanaan')->nullable();
+            $table->string('kategori', 100)->nullable();
+            $table->unsignedBigInteger('nominal')->nullable();
+            $table->unsignedInteger('kuota')->nullable();
+            $table->date('tanggal_buka')->nullable();
+            $table->date('tanggal_tutup')->nullable();
+            $table->string('link_sumber')->nullable();
+            $table->string('poster')->nullable();
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

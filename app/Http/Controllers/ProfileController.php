@@ -73,16 +73,11 @@ class ProfileController extends Controller
     }
 
     /**
-     * SEMENTARA: fitur login belum ada, jadi yang dipakai adalah user pertama di database
-     * (hasil seeder). TODO: ganti dengan Auth::user() dan pasang middleware 'auth' di route
-     * setelah fitur login tersedia.
+     * Mendapatkan user yang sedang login.
+     * Route sudah dilindungi middleware 'auth', jadi Auth::user() pasti ada.
      */
     private function currentUser(): User
     {
-        $user = User::query()->orderBy('id')->first();
-
-        abort_if($user === null, 404, 'Belum ada data. Jalankan: php artisan migrate --seed');
-
-        return $user;
+        return \Illuminate\Support\Facades\Auth::user();
     }
 }

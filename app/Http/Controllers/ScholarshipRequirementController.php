@@ -15,6 +15,8 @@ class ScholarshipRequirementController extends Controller
      */
     public function index()
     {
+        $this->syncAllBeasiswas();
+
         $scholarships = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->get();
 
         return view('requirements.index', compact('scholarships'));
@@ -25,7 +27,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function edit($id)
     {
-        $scholarship = Scholarship::with(['requirement', 'registrationPeriod', 'requiredDocuments'])->findOrFail($id);
+        $scholarship = $this->getScholarship($id);
         
         $requirement = $scholarship->requirement ?? new ScholarshipRequirement([
             'scholarship_id' => $scholarship->id,
@@ -41,7 +43,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $scholarship = Scholarship::findOrFail($id);
+        $scholarship = $this->getScholarship($id);
 
         $validated = $request->validate([
             'min_gpa' => 'required|numeric|between:0.00,4.00',
@@ -73,7 +75,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function documents($id)
     {
-        $scholarship = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->findOrFail($id);
+        $scholarship = $this->getScholarship($id);
 
         // Daftar rekomendasi dokumen umum beasiswa untuk memudahkan admin memilih
         $presetDocuments = [
@@ -95,7 +97,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function storeDocument(Request $request, $id)
     {
-        $scholarship = Scholarship::findOrFail($id);
+        $scholarship = $this->getScholarship($id);
 
         $validated = $request->validate([
             'document_name' => 'required|string|max:150',
@@ -140,7 +142,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function toggleDocumentMandatory($id, $docId)
     {
-        $scholarship = Scholarship::findOrFail($id);
+        $scholarship = $this->getScholarship($id);
         $document = RequiredDocument::where('scholarship_id', $scholarship->id)->findOrFail($docId);
 
         $document->update([
@@ -159,7 +161,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function destroyDocument($id, $docId)
     {
-        $scholarship = Scholarship::findOrFail($id);
+        $scholarship = $this->getScholarship($id);
         $document = RequiredDocument::where('scholarship_id', $scholarship->id)->findOrFail($docId);
         $docName = $document->document_name;
 
@@ -175,7 +177,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function period($id)
     {
-        $scholarship = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->findOrFail($id);
+        $scholarship = $this->getScholarship($id);
 
         $period = $scholarship->registrationPeriod ?? new RegistrationPeriod([
             'scholarship_id' => $scholarship->id,
@@ -193,7 +195,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function updatePeriod(Request $request, $id)
     {
-        $scholarship = Scholarship::findOrFail($id);
+        $scholarship = $this->getScholarship($id);
 
         $validated = $request->validate([
             'open_date'   => 'required|date',
@@ -230,7 +232,7 @@ class ScholarshipRequirementController extends Controller
      */
     public function togglePeriod($id)
     {
-        $scholarship = Scholarship::with('registrationPeriod')->findOrFail($id);
+        $scholarship = $this->getScholarship($id);
 
         if (!$scholarship->registrationPeriod) {
             $scholarship->registrationPeriod()->create([
@@ -259,8 +261,62 @@ class ScholarshipRequirementController extends Controller
      */
     public function show($id)
     {
-        $scholarship = Scholarship::with(['requirement', 'requiredDocuments', 'registrationPeriod'])->findOrFail($id);
+        $scholarship = $this->getScholarship($id);
+        abort_if($scholarship->status !== 'published', 404);
 
         return view('requirements.show', compact('scholarship'));
+    }
+
+    /**
+     * Helper: Cari scholarship atau sinkronisasi langsung dari tabel beasiswas (fitur Zidan)
+     */
+    protected function getScholarship($id): Scholarship
+    {
+        $scholarship = Scholarship::with(['requirement', 'registrationPeriod', 'requiredDocuments'])->find($id);
+
+        if (!$scholarship) {
+            $beasiswa = \App\Models\Beasiswa::find($id);
+            if ($beasiswa) {
+                $scholarship = Scholarship::create([
+                    'id'          => $beasiswa->id,
+                    'name'        => $beasiswa->nama,
+                    'organizer'   => $beasiswa->penyelenggara,
+                    'description' => $beasiswa->deskripsi,
+                    'level'       => $beasiswa->jenjang,
+                    'category'    => $beasiswa->kategori,
+                    'status'      => $beasiswa->status ?? 'published',
+                    'start_date'  => $beasiswa->tanggal_buka,
+                    'end_date'    => $beasiswa->tanggal_tutup,
+                ]);
+                $scholarship->load(['requirement', 'registrationPeriod', 'requiredDocuments']);
+            } else {
+                abort(404);
+            }
+        }
+
+        return $scholarship;
+    }
+
+    /**
+     * Helper: Sinkronisasi seluruh beasiswa dari Zidan ke tabel scholarships
+     */
+    protected function syncAllBeasiswas(): void
+    {
+        $beasiswas = \App\Models\Beasiswa::all();
+        foreach ($beasiswas as $b) {
+            Scholarship::updateOrCreate(
+                ['id' => $b->id],
+                [
+                    'name'        => $b->nama,
+                    'organizer'   => $b->penyelenggara,
+                    'description' => $b->deskripsi,
+                    'level'       => $b->jenjang,
+                    'category'    => $b->kategori,
+                    'status'      => $b->status ?? 'published',
+                    'start_date'  => $b->tanggal_buka,
+                    'end_date'    => $b->tanggal_tutup,
+                ]
+            );
+        }
     }
 }

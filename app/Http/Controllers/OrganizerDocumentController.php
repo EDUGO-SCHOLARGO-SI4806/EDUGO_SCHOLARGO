@@ -99,7 +99,7 @@ class OrganizerDocumentController extends Controller
 
         return redirect()
             ->route('organizer.documents.index')
-            ->with('success', 'Dokumen berhasil dikirim. Pengajuan Anda sedang menunggu verifikasi Super Admin.');
+            ->with('success', 'Dokumen berhasil dikirim. Pengajuan Anda sedang menunggu verifikasi Admin.');
     }
 
         /**

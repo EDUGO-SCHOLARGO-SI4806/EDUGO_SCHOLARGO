@@ -1,6 +1,7 @@
-@extends('layouts.super-admin')
+@extends('layouts.admin')
 
 @section('title', 'Manajemen Akun')
+@section('breadcrumb', 'Manajemen Akun')
 
 @section('content')
     <div class="mb-6 flex items-start justify-between gap-4">

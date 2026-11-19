@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AccountController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\EnsureAdmin;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('super_admin')
+Route::middleware(['auth', EnsureAdmin::class])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -18,13 +17,3 @@ Route::middleware('super_admin')
         Route::post('/accounts/{user}/approve', [AccountController::class, 'approve'])->name('accounts.approve');
         Route::post('/accounts/{user}/reject', [AccountController::class, 'reject'])->name('accounts.reject');
     });
-
-// SEMENTARA: login cepat untuk testing (hanya di APP_ENV=local).
-// HAPUS blok ini setelah login sungguhan dari tim sudah di-merge.
-if (app()->environment('local')) {
-    Route::get('/dev/login-super-admin', function () {
-        Auth::login(User::where('role', User::ROLE_SUPER_ADMIN)->firstOrFail());
-
-        return redirect()->route('admin.accounts.index');
-    });
-}

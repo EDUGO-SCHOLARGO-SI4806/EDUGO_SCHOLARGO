@@ -9,7 +9,7 @@
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-900">Verifikasi Akun Penyelenggara</h2>
         <p class="text-sm text-gray-500 mt-1">
-            Lengkapi data lembaga dan unggah dokumen legalitas agar akun Anda dapat diverifikasi oleh Super Admin.
+            Lengkapi data lembaga dan unggah dokumen legalitas agar akun Anda dapat diverifikasi oleh Admin.
         </p>
     </div>
 

@@ -21,7 +21,7 @@ class ReviewTest extends DuskTestCase
     // TC.Review.001 - Positive
     public function test_review_001_setujui_penyelenggara(): void
     {
-        $admin = User::where('email', 'superadmin@scholargo.test')->first();
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
         $organizer = User::where('email', 'penyelenggara.menunggu@scholargo.test')->first();
 
         $this->browse(function (Browser $browser) use ($admin, $organizer) {
@@ -40,7 +40,7 @@ class ReviewTest extends DuskTestCase
     // TC.Review.002 - Negative
     public function test_review_002_tolak_tanpa_catatan(): void
     {
-        $admin = User::where('email', 'superadmin@scholargo.test')->first();
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
         $organizer = User::where('email', 'penyelenggara.menunggu@scholargo.test')->first();
 
         $this->browse(function (Browser $browser) use ($admin, $organizer) {

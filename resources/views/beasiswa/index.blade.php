@@ -82,7 +82,7 @@
 </head>
 <body>
 @php
-    $nama = auth()->user()->name ?? 'Fira';
+    $nama = auth()->user()?->name ?? 'Mahasiswa';
 @endphp
 
 <header class="nav">
@@ -95,9 +95,17 @@
 
     <nav class="menu">
         <a href="{{ route('beasiswa.index') }}" class="on">Beranda</a>
-        <a href="#">Pendaftaranku</a>
-        <a href="#">Notifikasi</a>
-        <span class="avatar">{{ strtoupper(substr($nama, 0, 1)) }}</span>
+        @auth
+            <a href="{{ route('profile.show') }}">Profil</a>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline; margin:0;">
+                @csrf
+                <button type="submit" style="background:none; border:none; color:#ef4444; font:inherit; font-size:14px; font-weight:500; cursor:pointer; padding:0;">Keluar</button>
+            </form>
+            <a href="{{ route('profile.show') }}" class="avatar" title="{{ $nama }}">{{ strtoupper(substr($nama, 0, 1)) }}</a>
+        @else
+            <a href="{{ route('login') }}">Masuk</a>
+            <a href="{{ route('register') }}">Daftar</a>
+        @endauth
     </nav>
 </header>
 
@@ -197,7 +205,7 @@
 
                 <div class="row">
                     <span class="meta">{{ $b->jenjang }} · {{ $b->lokasi }}</span>
-                    <a href="#" class="btn-detail">Lihat Detail</a>
+                    <a href="{{ route('student.scholarships.show', $b->id) }}" class="btn-detail">Lihat Detail</a>
                 </div>
             </article>
         @empty

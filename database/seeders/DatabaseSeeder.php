@@ -17,8 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // FR-01 (Salsabila): 4 penyelenggara contoh dengan status berbeda
-        $this->call(OrganizerDemoSeeder::class);
+        // 1. Akun pengguna lengkap (Admin, Mahasiswa, Penyelenggara)
+        $this->call(AccountSeeder::class);
+
+        // 2. Data katalog beasiswa awal
+        $this->call(BeasiswaSeeder::class);
+
         // Mahasiswa dengan profil lengkap
         $lengkap = User::updateOrCreate(
             ['email' => 'rafi@scholargo.test'],

@@ -2,13 +2,37 @@
 
 namespace App\Models;
 
-/**
- * Class Scholarship
- * Alias/Wrapper ke Model Beasiswa demi backward compatibility,
- * sekaligus membawa relasi requirements, documents, dan period untuk PBI-13, 14, 15.
- */
-class Scholarship extends Beasiswa
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Scholarship extends Model
 {
+    use HasFactory;
+
+    protected $table = 'scholarships';
+
+    protected $fillable = [
+        'name',
+        'organizer',
+        'description',
+        'level',
+        'category',
+        'status',
+        'start_date',
+        'end_date',
+    ];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date'   => 'date',
+    ];
+
+    // Accessor: organizer_name adalah alias organizer (kompatibel dengan view Fira)
+    public function getOrganizerNameAttribute(): ?string
+    {
+        return $this->organizer;
+    }
+
     public function requirement()
     {
         return $this->hasOne(ScholarshipRequirement::class, 'scholarship_id');

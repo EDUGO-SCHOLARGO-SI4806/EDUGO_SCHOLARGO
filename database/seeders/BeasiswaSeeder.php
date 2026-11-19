@@ -26,6 +26,7 @@ class BeasiswaSeeder extends Seeder
                 'lokasi'          => $lokasi,
                 'jenis_pendanaan' => 'Pendanaan Penuh',
                 'deskripsi'       => 'Program beasiswa untuk mahasiswa berprestasi.',
+                'status'          => 'published',
                 'tanggal_tutup'   => now()->addDays($hari),
             ]);
         }

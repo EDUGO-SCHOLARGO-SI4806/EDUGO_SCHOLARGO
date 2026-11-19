@@ -1,4 +1,4 @@
-@extends('layouts.super-admin')
+@extends('layouts.admin')
 
 @section('title', $account->name)
 @section('breadcrumb', $account->name)
@@ -101,7 +101,7 @@
 
                     @if ($profile->reviewed_at)
                         <p class="text-xs text-gray-500">
-                            Ditinjau oleh {{ $profile->reviewer?->name ?? 'Super Admin' }} pada {{ $profile->reviewed_at->format('d M Y, H:i') }}.
+                            Ditinjau oleh {{ $profile->reviewer?->name ?? 'Admin' }} pada {{ $profile->reviewed_at->format('d M Y, H:i') }}.
                         </p>
                     @endif
 

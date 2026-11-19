@@ -2,10 +2,9 @@
 
 @php
     $classes = match ($user->role) {
-        'super_admin' => 'bg-purple-100 text-purple-700',
-        'admin' => 'bg-blue-100 text-blue-700',
+        'admin'         => 'bg-blue-100 text-blue-700',
         'penyelenggara' => 'bg-amber-100 text-amber-700',
-        default => 'bg-gray-100 text-gray-700',
+        default         => 'bg-gray-100 text-gray-700',
     };
 @endphp
 

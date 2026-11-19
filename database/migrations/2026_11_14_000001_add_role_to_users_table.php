@@ -10,7 +10,7 @@ return new class extends Migration
      * Kolom `role` dipakai bersama seluruh tim. Dibuat hanya jika belum ada,
      * supaya tidak bentrok kalau teman satu tim sudah menambahkannya.
      *
-     * Nilai: mahasiswa | admin | super_admin | penyelenggara (lihat konstanta di App\Models\User)
+     * Nilai: mahasiswa | admin | penyelenggara (lihat konstanta di App\Models\User)
      */
     public function up(): void
     {

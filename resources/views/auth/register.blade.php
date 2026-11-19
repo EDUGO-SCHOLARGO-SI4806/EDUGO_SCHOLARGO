@@ -62,7 +62,7 @@
             <div>
                 <strong class="font-bold">Alur Verifikasi Akun Penyelenggara:</strong>
                 <p class="mt-0.5 leading-relaxed">
-                    Setelah mengisi formulir ini, Anda akan langsung diarahkan ke halaman <strong>Unggah Dokumen Legalitas (Akta, NIB/NPWP, Surat Kuasa)</strong> untuk diverifikasi oleh Super Admin.
+                    Setelah mengisi formulir ini, Anda akan langsung diarahkan ke halaman <strong>Unggah Dokumen Legalitas (Akta, NIB/NPWP, Surat Kuasa)</strong> untuk diverifikasi oleh Admin.
                 </p>
             </div>
         </div>

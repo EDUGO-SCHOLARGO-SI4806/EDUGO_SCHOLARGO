@@ -45,6 +45,18 @@ class UpdateScholarshipRequest extends FormRequest
             $merge['link_sumber'] = $this->source_url;
         }
 
+        $category = $merge['kategori'] ?? $this->input('kategori');
+        if (is_string($category)) {
+            $fundingByCategory = [
+                'full scholarship' => 'Pendanaan Penuh',
+                'partial scholarship' => 'Pendanaan Parsial',
+            ];
+            $normalizedCategory = strtolower(trim($category));
+            if (isset($fundingByCategory[$normalizedCategory])) {
+                $merge['jenis_pendanaan'] = $fundingByCategory[$normalizedCategory];
+            }
+        }
+
         if (! empty($merge)) {
             $this->merge($merge);
         }

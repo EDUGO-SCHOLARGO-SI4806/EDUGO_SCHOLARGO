@@ -10,10 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Data lembaga penyelenggara + status verifikasi akunnya.
  *
- * KONTRAK UNTUK FR-02 (Super Admin / Ishfan):
+ * KONTRAK UNTUK FR-02 (Admin / Ishfan):
  *  - Status verifikasi: STATUS_PENDING | STATUS_APPROVED | STATUS_REJECTED
- *  - Menyetujui akun : $profile->approve($superAdmin)
- *  - Menolak akun    : $profile->reject($superAdmin, 'catatan penolakan')
+ *  - Menyetujui akun : $profile->approve($admin)
+ *  - Menolak akun    : $profile->reject($admin, 'catatan penolakan')
  *  - Dokumen         : $profile->documents (relasi ke OrganizerDocument)
  */
 class OrganizerProfile extends Model

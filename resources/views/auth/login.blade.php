@@ -52,8 +52,8 @@
                 </div>
                 <span class="text-2xl font-extrabold text-gray-900 tracking-tight">Scholar<span class="text-brand-600">GO</span></span>
             </div>
-            <h1 class="text-xl font-bold text-gray-900">Portal Penyelenggara Beasiswa</h1>
-            <p class="text-xs text-gray-500">Masuk untuk mengelola bukti legalitas dan verifikasi akun lembaga.</p>
+            <h1 class="text-xl font-bold text-gray-900">Portal Login</h1>
+            <p class="text-xs text-gray-500">Masuk untuk mengelola bukti legalitas dan verifikasi akun</p>
         </div>
 
         <!-- Flash Message Success -->
@@ -91,7 +91,7 @@
                 <!-- Input Email -->
                 <div>
                     <label for="email" class="block text-xs font-semibold text-gray-800 mb-1">
-                        Alamat Email Penyelenggara <span class="text-red-500">*</span>
+                        Alamat Email <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
@@ -102,7 +102,7 @@
                             id="email"
                             name="email"
                             value="{{ old('email') }}"
-                            placeholder="nama@lembaga.org"
+                            placeholder="email"
                             required
                             autocomplete="email"
                             class="w-full pl-10 pr-4 py-2.5 rounded-xl border {{ $errors->has('email') ? 'border-red-400 ring-1 ring-red-400' : 'border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500' }} text-xs text-gray-800 font-medium transition focus:outline-none"

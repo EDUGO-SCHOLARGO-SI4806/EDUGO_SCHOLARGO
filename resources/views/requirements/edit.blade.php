@@ -13,9 +13,6 @@
             Kembali ke Daftar Beasiswa
         </a>
         <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-semibold rounded-full border border-brand-200">
-                PBI-13
-            </span>
             <h2 class="text-2xl font-bold text-gray-900">Atur Kriteria Kualifikasi Beasiswa</h2>
         </div>
         <p class="text-sm text-gray-500 mt-1">Konfigurasi batas minimal IPK dan semester aktif untuk validasi otomatis pendaftar.</p>
@@ -34,10 +31,10 @@
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold border border-white/20 transition">
-                Daftar Dokumen Wajib (PBI-14)
+                Daftar Dokumen Wajib
             </a>
             <a href="{{ route('requirements.period', $scholarship->id) }}" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold border border-white/20 transition">
-                Periode Pendaftaran (PBI-15)
+                Periode Pendaftaran
             </a>
         </div>
     </div>

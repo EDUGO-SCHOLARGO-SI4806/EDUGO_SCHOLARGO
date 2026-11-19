@@ -21,7 +21,7 @@ class FilterTest2 extends DuskTestCase
     // TC.Filter.001 - Positive
     public function test_filter_001_cari_dan_filter(): void
     {
-        $admin = User::where('email', 'superadmin@scholargo.test')->first();
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
@@ -47,7 +47,7 @@ class FilterTest2 extends DuskTestCase
     // TC.Filter.002 - Negative
     public function test_filter_002_cari_tidak_ada_hasil(): void
     {
-        $admin = User::where('email', 'superadmin@scholargo.test')->first();
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)

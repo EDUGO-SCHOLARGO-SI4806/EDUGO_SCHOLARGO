@@ -15,7 +15,7 @@
             </a>
             <div class="flex items-center gap-2">
                 <span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-semibold rounded-full border border-brand-200">
-                    PBI-15
+                    Periode Pendaftaran
                 </span>
                 <h2 class="text-2xl font-bold text-gray-900">Mengatur Periode dan Batas Waktu Pendaftaran</h2>
             </div>
@@ -72,10 +72,10 @@
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <a href="{{ route('requirements.edit', $scholarship->id) }}" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold border border-white/20 transition">
-                Kriteria IPK & Semester (PBI-13)
+                Kriteria IPK & Semester
             </a>
             <a href="{{ route('requirements.documents', $scholarship->id) }}" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-semibold border border-white/20 transition">
-                Dokumen Wajib (PBI-14)
+                Dokumen Wajib
             </a>
             <a href="{{ route('scholarships.requirements', ['id' => $scholarship->id, 'tab' => 'persyaratan']) }}" target="_blank" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold transition inline-flex items-center gap-1.5 shadow-sm">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>

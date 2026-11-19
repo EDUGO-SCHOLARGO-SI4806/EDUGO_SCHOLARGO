@@ -97,15 +97,15 @@
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('requirements.edit', $scholarship->id) }}" class="text-xs bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1.5 shadow-sm">
                     <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                    <span>Atur Kriteria (PBI-13)</span>
+                    <span>Atur Kriteria</span>
                 </a>
                 <a href="{{ route('requirements.documents', $scholarship->id) }}" class="text-xs bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1.5 shadow-sm">
                     <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    <span>Atur Dokumen (PBI-14)</span>
+                    <span>Atur Dokumen</span>
                 </a>
                 <a href="{{ route('requirements.period', $scholarship->id) }}" class="text-xs bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 px-3 py-1.5 rounded-xl font-semibold transition inline-flex items-center gap-1.5 shadow-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    <span>Atur Periode (PBI-15)</span>
+                    <span>Atur Periode</span>
                 </a>
             </div>
         </div>
@@ -219,7 +219,7 @@
             <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 md:p-8 shadow-sm space-y-6">
                 <!-- Navigation Tabs (Mockup Gambar 26) -->
                 <div class="flex border-b border-gray-200 gap-4 sm:gap-6 text-sm font-semibold overflow-x-auto">
-                    <!-- Tab Persyaratan (PBI-13) -->
+                    <!-- Tab Persyaratan -->
                     <button
                         type="button"
                         id="tab-btn-persyaratan"
@@ -227,10 +227,9 @@
                         class="pb-3 text-brand-600 border-b-2 border-brand-600 flex items-center gap-2 whitespace-nowrap transition"
                     >
                         <span>Persyaratan Kualifikasi</span>
-                        <span class="px-2 py-0.5 bg-brand-100 text-brand-800 rounded-full text-[10px] font-bold">PBI-13</span>
                     </button>
 
-                    <!-- Tab Dokumen (PBI-14) -->
+                    <!-- Tab Dokumen -->
                     <button
                         type="button"
                         id="tab-btn-dokumen"
@@ -239,11 +238,11 @@
                     >
                         <span>Dokumen Wajib</span>
                         <span class="px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full text-[10px] font-bold">
-                            PBI-14 ({{ $scholarship->requiredDocuments->count() }})
+                            {{ $scholarship->requiredDocuments->count() }} Berkas
                         </span>
                     </button>
 
-                    <!-- Tab Jadwal & Periode (PBI-15) -->
+                    <!-- Tab Jadwal & Periode -->
                     <button
                         type="button"
                         id="tab-btn-jadwal"
@@ -251,9 +250,6 @@
                         class="pb-3 text-gray-400 hover:text-gray-600 border-b-2 border-transparent flex items-center gap-2 whitespace-nowrap transition"
                     >
                         <span>Jadwal & Periode</span>
-                        <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-[10px] font-bold">
-                            PBI-15
-                        </span>
                     </button>
                 </div>
 
@@ -509,31 +505,31 @@
                             1
                         </div>
                         <div>
-                            <p class="font-semibold text-gray-900">1. Cek Kualifikasi (PBI-13)</p>
+                            <p class="font-semibold text-gray-900">1. Cek Kualifikasi</p>
                             <p class="text-gray-400 text-[11px]">Validasi IPK dan status semester</p>
                         </div>
                     </div>
 
-                    <!-- Step 2: Unggah Dokumen (PBI-14) -->
+                    <!-- Step 2: Unggah Dokumen -->
                     <div id="step_item_2" onclick="switchTab('dokumen')" class="flex items-start gap-3 opacity-60 cursor-pointer">
                         <div id="step_circle_2" class="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                             2
                         </div>
                         <div>
-                            <p class="font-semibold text-gray-700">2. Daftar Dokumen Wajib (PBI-14)</p>
+                            <p class="font-semibold text-gray-700">2. Daftar Dokumen Wajib</p>
                             <p class="text-gray-400 text-[11px]">
                                 {{ $scholarship->requiredDocuments->count() }} berkas persyaratan beasiswa
                             </p>
                         </div>
                     </div>
 
-                    <!-- Step 3: Cek Jadwal & Batas Waktu (PBI-15) -->
+                    <!-- Step 3: Cek Jadwal & Batas Waktu -->
                     <div id="step_item_3" onclick="switchTab('jadwal')" class="flex items-start gap-3 opacity-60 cursor-pointer">
                         <div id="step_circle_3" class="w-6 h-6 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                             3
                         </div>
                         <div>
-                            <p class="font-semibold text-gray-700">3. Jadwal & Periode (PBI-15)</p>
+                            <p class="font-semibold text-gray-700">3. Jadwal & Periode</p>
                             <p class="text-gray-400 text-[11px]">
                                 @if($period && $period->isOpen())
                                     <span class="text-emerald-600 font-medium">Buka • sisa {{ $period->daysRemaining() }} hari</span>

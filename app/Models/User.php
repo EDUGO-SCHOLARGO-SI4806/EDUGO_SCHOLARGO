@@ -10,18 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    // Nilai kolom `role`. Semua anggota tim sebaiknya memakai konstanta ini.
     // Nilai kolom `role`. Semua anggota tim memakai konstanta ini.
+    // Hanya 3 role aktif: mahasiswa, admin, penyelenggara
     public const ROLE_STUDENT = 'mahasiswa';
     public const ROLE_ADMIN = 'admin';
-    public const ROLE_SUPER_ADMIN = 'super_admin';
     public const ROLE_ORGANIZER = 'penyelenggara';
 
     /**
@@ -41,10 +38,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
     public const ROLE_LABELS = [
-        self::ROLE_SUPER_ADMIN => 'Super Admin',
-        self::ROLE_ADMIN => 'Admin',
-        self::ROLE_STUDENT => 'Mahasiswa',
+        self::ROLE_ADMIN     => 'Admin',
+        self::ROLE_STUDENT   => 'Mahasiswa',
         self::ROLE_ORGANIZER => 'Penyelenggara',
     ];
 
@@ -65,9 +62,9 @@ class User extends Authenticatable
         return $this->role === self::ROLE_ORGANIZER;
     }
 
-    public function isSuperAdmin(): bool
+    public function isAdmin(): bool
     {
-        return $this->role === self::ROLE_SUPER_ADMIN;
+        return $this->role === self::ROLE_ADMIN;
     }
 
     public function roleLabel(): string
@@ -78,10 +75,9 @@ class User extends Authenticatable
     public function roleBadgeClass(): string
     {
         return match ($this->role) {
-            self::ROLE_SUPER_ADMIN => 'bg-purple-100 text-purple-700',
-            self::ROLE_ADMIN => 'bg-blue-100 text-blue-700',
+            self::ROLE_ADMIN     => 'bg-blue-100 text-blue-700',
             self::ROLE_ORGANIZER => 'bg-amber-100 text-amber-700',
-            default => 'bg-gray-100 text-gray-700',
+            default              => 'bg-gray-100 text-gray-700',
         };
     }
 
@@ -129,16 +125,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function organizerProfile(): HasOne
-    {
-        return $this->hasOne(OrganizerProfile::class);
-    }
-
-    public function isOrganizer(): bool
-    {
-        return $this->role === self::ROLE_ORGANIZER;
-    }
-}
     /**
      * Relasi ke StudentProfile (1-to-1)
      */

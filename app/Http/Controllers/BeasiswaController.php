@@ -33,4 +33,12 @@ class BeasiswaController extends Controller
         $filter = collect($request->only(['batas_waktu', 'jenjang', 'pendanaan']))->filter()->isNotEmpty();
         return view('beasiswa.index', compact('beasiswas', 'keyword', 'filter'));
     }
+
+    /**
+     * PBI-20 & PBI-21: Halaman detail beasiswa dengan pengecekan kesesuaian profil mahasiswa
+     */
+    public function show(Beasiswa $beasiswa)
+    {
+        return redirect()->route('student.scholarships.show', $beasiswa->id);
+    }
 }

@@ -55,10 +55,6 @@ class AuthController extends Controller
      */
     public function showRegisterForm()
     {
-        if (Auth::check()) {
-            return $this->redirectBasedOnRole(Auth::user());
-        }
-
         return view('auth.register');
     }
 
@@ -71,7 +67,8 @@ class AuthController extends Controller
             'name'     => 'required|string|max:150',
             'email'    => 'required|email|unique:users,email|max:150',
             'password' => 'required|string|min:8|confirmed',
-            'role'     => 'required|in:penyelenggara,mahasiswa,admin',
+            // Peran admin hanya boleh diberikan secara internal, tidak lewat registrasi publik.
+            'role'     => 'required|in:penyelenggara,mahasiswa',
         ], [
             'name.required'      => 'Nama lengkap wajib diisi.',
             'email.required'     => 'Email wajib diisi.',
@@ -81,6 +78,7 @@ class AuthController extends Controller
             'password.min'       => 'Kata sandi minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'role.required'      => 'Pilih peran akun Anda.',
+            'role.in'             => 'Peran akun yang dipilih tidak valid.',
         ]);
 
         $user = User::create([
@@ -93,14 +91,7 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        if ($user->isOrganizer()) {
-            return redirect()
-                ->route('organizer.documents.create')
-                ->with('success', "Akun penyelenggara berhasil dibuat! Silakan lengkapi profil dan unggah bukti legalitas lembaga Anda.");
-        }
-
-        return redirect()
-            ->route('organizer.documents.index')
+        return $this->redirectBasedOnRole($user)
             ->with('success', "Pendaftaran berhasil! Selamat datang, {$user->name}.");
     }
 
@@ -119,17 +110,26 @@ class AuthController extends Controller
     }
 
     /**
-     * Helper redirect halaman berdasarkan status profil penyelenggara
+     * Helper redirect halaman berdasarkan role pengguna
      */
     protected function redirectBasedOnRole($user)
     {
-        if ($user->isOrganizer()) {
-            if (!$user->organizerProfile) {
-                return redirect()->route('organizer.documents.create');
-            }
-            return redirect()->route('organizer.documents.index');
+        // 1. Role Mahasiswa -> ke Katalog Beasiswa (Beranda Mahasiswa)
+        if ($user->role === User::ROLE_STUDENT) {
+            return redirect()->route('beasiswa.index');
         }
 
-        return redirect()->route('organizer.documents.index');
+        // 2. Role Penyelenggara -> ke Katalog Beasiswa (fitur PBI 10-15)
+        if ($user->isOrganizer()) {
+            return redirect()->route('admin.scholarships.index');
+        }
+
+        // 3. Role Admin -> ke Manajemen & Verifikasi Akun Penyelenggara (PBI 4-6)
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.accounts.index');
+        }
+
+        // Default fallback
+        return redirect()->route('profile.show');
     }
 }

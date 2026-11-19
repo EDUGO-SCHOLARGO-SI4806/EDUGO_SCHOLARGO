@@ -56,8 +56,18 @@ class Beasiswa extends Model
     {
         return $q->where('status', 'published')
                  ->where(function ($query) {
-                     $query->whereNull('tanggal_tutup')
-                           ->orWhereDate('tanggal_tutup', '>=', today());
+                     // Periode khusus (termasuk penutupan manual) menjadi sumber utama.
+                     // Gunakan tanggal legacy hanya jika periode khusus belum diatur.
+                     $query->whereHas('registrationPeriod', function ($period) {
+                         $period->where('is_active', true)
+                                ->whereDate('close_date', '>=', today());
+                     })->orWhere(function ($legacy) {
+                         $legacy->whereDoesntHave('registrationPeriod')
+                                ->where(function ($dates) {
+                                    $dates->whereNull('tanggal_tutup')
+                                          ->orWhereDate('tanggal_tutup', '>=', today());
+                                });
+                     });
                  });
     }
 
@@ -79,10 +89,37 @@ class Beasiswa extends Model
             ->when($f['batas_waktu'] ?? null, fn ($q, $v) =>
                 $q->whereDate('tanggal_tutup', '<=', today()->addDays((int) $v)))
             ->when($f['jenjang'] ?? null, fn ($q, $v) => $q->where('jenjang', 'like', "%{$v}%"))
-            ->when($f['pendanaan'] ?? null, fn ($q, $v) => $q->where('jenis_pendanaan', $v));
+            ->when($f['pendanaan'] ?? null, function ($query, $value) {
+                $legacyCategory = match ($value) {
+                    'Pendanaan Penuh' => 'full scholarship',
+                    'Pendanaan Parsial' => 'partial scholarship',
+                    default => null,
+                };
+
+                $query->where(function ($funding) use ($value, $legacyCategory) {
+                    $funding->where('jenis_pendanaan', $value);
+
+                    if ($legacyCategory !== null) {
+                        $funding->orWhereRaw('LOWER(TRIM(kategori)) = ?', [$legacyCategory]);
+                    }
+                });
+            });
     }
 
     // Accessor kompatibilitas agar kode/view lama tidak error
+    public function getJenisPendanaanAttribute($value): ?string
+    {
+        if ($value) {
+            return $value;
+        }
+
+        return match (strtolower(trim((string) $this->kategori))) {
+            'full scholarship' => 'Pendanaan Penuh',
+            'partial scholarship' => 'Pendanaan Parsial',
+            default => null,
+        };
+    }
+
     public function getNameAttribute(): ?string { return $this->nama; }
     public function getOrganizerNameAttribute(): ?string { return $this->penyelenggara; }
     public function getLevelAttribute(): ?string { return $this->jenjang; }
@@ -94,9 +131,53 @@ class Beasiswa extends Model
     public function getQuotaAttribute() { return $this->kuota; }
     public function getSourceUrlAttribute(): ?string { return $this->link_sumber; }
 
-    // Otomatis hapus file poster saat force delete
+    // Relasi ke persyaratan, dokumen, dan periode (PBI 13, 14, 15)
+    public function requirement()
+    {
+        return $this->hasOne(ScholarshipRequirement::class, 'scholarship_id');
+    }
+
+    public function requiredDocuments()
+    {
+        return $this->hasMany(RequiredDocument::class, 'scholarship_id');
+    }
+
+    public function registrationPeriod()
+    {
+        return $this->hasOne(RegistrationPeriod::class, 'scholarship_id');
+    }
+
+    // Otomatis sinkronisasi dengan tabel scholarships untuk fitur Andika & Fira
     protected static function booted(): void
     {
+        static::saved(function (self $beasiswa) {
+            Scholarship::updateOrCreate(
+                ['id' => $beasiswa->id],
+                [
+                    'name'        => $beasiswa->nama,
+                    'organizer'   => $beasiswa->penyelenggara,
+                    'description' => $beasiswa->deskripsi,
+                    'level'       => $beasiswa->jenjang,
+                    'category'    => $beasiswa->kategori,
+                    'status'      => $beasiswa->status ?? 'published',
+                    'start_date'  => $beasiswa->tanggal_buka,
+                    'end_date'    => $beasiswa->tanggal_tutup,
+                ]
+            );
+        });
+
+        static::deleted(function (self $beasiswa) {
+            if ($beasiswa->isForceDeleting()) {
+                Scholarship::where('id', $beasiswa->id)->forceDelete();
+            } else {
+                Scholarship::where('id', $beasiswa->id)->delete();
+            }
+        });
+
+        static::restored(function (self $beasiswa) {
+            Scholarship::withTrashed()->where('id', $beasiswa->id)->restore();
+        });
+
         static::forceDeleted(function (self $beasiswa) {
             if ($beasiswa->poster) {
                 Storage::disk('public')->delete($beasiswa->poster);

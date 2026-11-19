@@ -6,10 +6,11 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Data dummy untuk testing Manajemen Akun Super Admin (FR-02).
+ * Data dummy untuk testing Manajemen Akun Admin (FR-02).
  * Jalankan: php artisan db:seed --class=AccountSeeder
  * Aman dijalankan berulang (berdasarkan email). Password semua akun: password
  *
+ * Hanya 3 role: mahasiswa, admin, penyelenggara
  * Akun penyelenggara (beserta profil dan dokumennya) dibuat oleh
  * OrganizerDemoSeeder milik FR-01 (Salsabila), jadi dipanggil dari sini.
  */
@@ -18,8 +19,6 @@ class AccountSeeder extends Seeder
     public function run(): void
     {
         $accounts = [
-            ['Super Admin', 'superadmin@scholargo.test', User::ROLE_SUPER_ADMIN],
-
             ['Admin Satu', 'admin1@scholargo.test', User::ROLE_ADMIN],
             ['Admin Dua', 'admin2@scholargo.test', User::ROLE_ADMIN],
 

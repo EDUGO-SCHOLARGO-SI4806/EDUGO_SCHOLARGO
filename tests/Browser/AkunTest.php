@@ -21,7 +21,7 @@ class AkunTest extends DuskTestCase
     // TC.Akun.001 - Positive
     public function test_akun_001_lihat_daftar_dan_detail(): void
     {
-        $admin = User::where('email', 'superadmin@scholargo.test')->first();
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
 
         $this->browse(function (Browser $browser) use ($admin) {
             $browser->loginAs($admin)
