@@ -1,0 +1,62 @@
+========================================================================
+             PANDUAN MENJALANKAN PROYEK EDUGO SCHOLARGO
+========================================================================
+
+Folder ini sudah LENGKAP dengan library vendor dan file konfigurasi .env,
+sehingga Anda TIDAK PERLU menjalankan 'composer install' lagi.
+
+------------------------------------------------------------------------
+LANGKAH CEPAT MENJALANKAN PROYEK:
+------------------------------------------------------------------------
+
+1. NYALAKAN XAMPP / LARAGON
+   - Buka XAMPP Control Panel.
+   - Klik "Start" pada Apache dan MySQL.
+
+2. BUAT DATABASE
+   - Buka browser dan masuk ke: http://localhost/phpmyadmin
+   - Buat database baru dengan nama: scholargo_db
+
+3. PERIKSA FILE .env
+   - Buka file .env di folder ini menggunakan VS Code atau Notepad.
+   - Cek baris DB_PORT:
+     * Jika MySQL Anda menggunakan port default 3306 (standar XAMPP):
+       ubah menjadi:
+       DB_PORT=3306
+     * Jika MySQL Anda menggunakan port 3307, biarkan:
+       DB_PORT=3307
+
+4. JALANKAN MIGRASI DAN SEEDER DATABASE
+   Buka terminal / Command Prompt (CMD) di folder proyek ini, lalu jalankan:
+   
+   php artisan migrate:fresh --seed
+
+   (Perintah di atas akan otomatis membuat semua tabel dan mengisi akun demo).
+
+5. JALANKAN SERVER LARAVEL
+   Di terminal yang sama, ketik:
+
+   php artisan serve
+
+6. BUKA DI BROWSER
+   Buka browser Anda dan akses:
+   http://127.0.0.1:8000/login
+
+------------------------------------------------------------------------
+DAFTAR AKUN DEMO UNTUK UJI COBA:
+------------------------------------------------------------------------
+Semua akun menggunakan password: password
+
+1. AKUN ADMIN (Manajemen Akun & Verifikasi Lembaga)
+   - Email: admin1@scholargo.test
+   - Password: password
+
+2. AKUN PENYELENGGARA (Katalog Beasiswa, Persyaratan & Dokumen Legalitas)
+   - Email: penyelenggara.disetujui@scholargo.test
+   - Password: password
+
+3. AKUN MAHASISWA (Katalog Publik Beasiswa & Profil Mahasiswa)
+   - Email: budi@mahasiswa.test
+   - Password: password
+
+========================================================================
